@@ -63,7 +63,7 @@ export function CreateCommunityButton() {
 
   return (
     <>
-      <Button onClick={openModal}>Create Community $1000 VIBE</Button>
+      <Button onClick={openModal}>Create Channel</Button>
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>

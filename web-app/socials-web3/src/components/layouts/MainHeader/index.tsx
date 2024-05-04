@@ -40,12 +40,12 @@ const MainHeader = () => {
 
       {/* header right */}
       <div className="flex items-center gap-4 phone:gap-1 text-sm">
-        {userInfo?.username && (
+        {/* {userInfo?.username && (
           <div className="" onClick={logout}>
             {`Wellcome `}{" "}
             <span className="text-green font-bold">{userInfo?.fullname}</span>
           </div>
-        )}
+        )} */}
         <ConnectWallet
           className="hidden lg:flex"
           title={"common_connect_wallet"}

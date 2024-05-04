@@ -71,7 +71,7 @@ const PostItem = ({ p, index }: any) => {
           </span>
         </div>
         <div>
-          <span className="text-text-secondary cursor-pointer text-sm ml-2">
+          <span className="text-text-secondary cursor-pointer text-xs ml-2">
             30m ago
           </span>
         </div>
