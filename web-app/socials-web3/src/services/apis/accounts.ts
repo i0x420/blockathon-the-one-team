@@ -6,13 +6,13 @@
 
 import { supabase } from "./clients";
 
-export const getAllUser = async () => {
+const getAllUser = async () => {
   const { data: accounts, error } = await supabase.from("accounts").select("*");
   console.log("getAllUser", { accounts, error });
 
   return accounts;
 };
-export const getUserByNFT = async (id: string) => {
+const getUserByNFT = async (id: string) => {
   const { data: userInfo, error } = await supabase
     .from("accounts")
     .select()
@@ -36,7 +36,7 @@ const checkIsExits = async (username: string, nftid: string) => {
   return false;
 };
 
-export const createAccount = async (
+const createAccount = async (
   username: string,
   password: string,
   fullname: string
@@ -73,7 +73,7 @@ export const createAccount = async (
   return { userInfo, error };
 };
 
-export const updateUserNFT = async (username: string, nftid: string) => {
+const updateUserNFT = async (username: string, nftid: string) => {
   const { data: userInfo, error } = await supabase
     .from("accounts")
     .update({
@@ -83,3 +83,10 @@ export const updateUserNFT = async (username: string, nftid: string) => {
     .select();
   console.log("updateUserNFT", { userInfo, error });
 };
+
+export const AccountAPI = {
+    getAllUser,
+    getUserByNFT,
+    createAccount,
+    updateUserNFT
+}

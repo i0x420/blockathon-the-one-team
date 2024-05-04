@@ -6,9 +6,13 @@
 
 import { supabase } from "./clients";
 
-export const getAllPosts = async () => {
+const getAllPosts = async () => {
   const { data: posts, error } = await supabase.from("posts").select("*");
   console.log("getAllPosts", { posts, error });
 
   return posts;
 };
+
+export const PostsAPI = {
+    getAllPosts
+}

@@ -7,7 +7,7 @@
 import slugify from "slugify";
 import { supabase } from "./clients";
 
-export const getAllCommunity = async () => {
+const getAllCommunity = async () => {
   const { data: community, error } = await supabase
     .from("community")
     .select("*");
@@ -15,7 +15,7 @@ export const getAllCommunity = async () => {
 
   return community;
 };
-export const getCommunityBySlug = async (slug: string) => {
+const getCommunityBySlug = async (slug: string) => {
   const { data: community, error } = await supabase
     .from("community")
     .select("*")
@@ -24,7 +24,7 @@ export const getCommunityBySlug = async (slug: string) => {
 
   return community;
 };
-export const createCommunity = async (name: string, description: string) => {
+const createCommunity = async (name: string, description: string) => {
   const { data: community, error } = await supabase
     .from("community")
     .insert([
@@ -34,7 +34,7 @@ export const createCommunity = async (name: string, description: string) => {
 
   return community;
 };
-export const updateCommunity = async (slug: string, body: any) => {
+const updateCommunity = async (slug: string, body: any) => {
   const { data: community, error } = await supabase
     .from("community")
     .update(body)
@@ -43,4 +43,11 @@ export const updateCommunity = async (slug: string, body: any) => {
   console.log("updateCommunity", { community, error });
 
   return community;
+};
+
+export const CommunityAPI = {
+  createCommunity,
+  getAllCommunity,
+  getCommunityBySlug,
+  updateCommunity,
 };
