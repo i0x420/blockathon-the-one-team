@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "@coin98-com/wallet-adapter-react-ui/styles.css";
+
+/* font icons */
+@import url("../assets/icons/style.css");
+
+// color variables
+:root {
+  /*  theme colors  */
+  --brand-primary: #cda439;
+  --brand-secondary: #ad8837;
+  --brand-hover: #dab24a;
+  --brand-disabled: #30260d;
+
+  /* Grayscale colors  */
+  --text-primary: #fafafa;
+  --text-secondary: #bbbbbb;
+  --text-placeholder: #777777;
+  --text-disabled: #494949;
+  --reverse-text-primary: #1b1b1b;
+
+  /* Background  */
+  --background-surface: #141414;
+  --background-surface-rgb: 20 20 20;
+  --background-primary: #1a1a1a;
+  --background-secondary: #242424;
+  --background-third: #272727;
+  --background-hover: #363636;
+
+  --background-input: #242424;
+  --background-input-hover: #2f2f2f;
+  --background-input-active: #272727;
+
+  --reverse-background-primary: #ffffff;
+  --reverse-background-secondary: #f5f5f5;
+
+  /* Accent colors  */
+  --red: #b24633;
+  --yellow: #debc41;
+  --green: #60a05f;
+  --blue: #4a86be;
+
+  --secondary-red: #281714;
+  --secondary-yellow: #31260b;
+  --secondary-green: #172617;
+  --secondary-blue: #101f2d;
+
+  /* other colors  */
+  --default-border: #363636;
+  --fixed-black: #1b1b1b;
+  --fixed-white: #fff;
+}
+
+[data-theme="light"] {
+  /* theme colors */
+  --brand-primary: #cda349;
+  --brand-secondary: #e7ca8c;
+  --brand-hover: #dab24a;
+  --brand-disabled: #faf1db;
+
+  /* grayscale colors */
+  --text-primary: #1b1b1b;
+  --text-secondary: #777777;
+  --text-placeholder: #bbbbbb;
+  --text-disabled: #c8c8c8;
+  --default-border: #dfdfdf;
+  --reverse-text-primary: #fafafa;
+
+  /* background */
+  --background-surface: #fafafa;
+  --background-surface-rgb: 250 250 250;
+  --background-primary: #ffffff;
+  --background-secondary: #f5f5f5;
+  --background-third: #e4e4e4;
+  --background-hover: #e4e4e4;
+
+  --background-input: #f5f5f5;
+  --background-input-hover: #e4e4e4;
+  --background-input-active: #777777;
+
+  --reverse-background-primary: #1a1a1a;
+  --reverse-background-secondary: #242424;
+
+  /* accent colors */
+  --secondary-red: #ffe3de;
+  --secondary-yellow: #fff6d6;
+  --secondary-green: #e4f2e3;
+  --secondary-blue: #deebf7;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  //custom tailwind, base
+  body {
+    @apply min-h-screen bg-background-surface text-base ipad:text-sm text-text-primary font-normal;
+  }
+}
+
+/* :root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+} */
