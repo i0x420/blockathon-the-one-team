@@ -41,27 +41,36 @@ const updatePost = async (id: string, body: any) => {
   return { post, error };
 };
 
+const markPremiumPost = async (uuid: string) => {
+  const { data: post, error } = await supabase
+    .from("posts")
+    .update({ premium: true })
+    .eq("uuid", uuid)
+    .select();
+  console.log("markPremiumPost", { post, error });
+
+  return { post, error };
+};
+
 interface FetchNewFeedParams {
   username: string;
   community: string[];
 }
 
-const fetchNewFeed = async ({
-  username,
-  community,
-}: FetchNewFeedParams) => {
+const fetchNewFeed = async ({ username, community }: FetchNewFeedParams) => {
   const { data: posts, error } = await supabase.from("posts").select("*");
 
-  const communityPost = []
-  const premiumPost = []
-  const freedomPost = []
+  const communityPost = [];
+  const premiumPost = [];
+  const freedomPost = [];
 
   return { posts: merge(communityPost, premiumPost, freedomPost), error };
-}
+};
 
 export const PostsAPI = {
   getAllPosts,
   getPostById,
   createPost,
   updatePost,
+  markPremiumPost
 };
