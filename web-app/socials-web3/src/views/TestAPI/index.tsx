@@ -86,7 +86,6 @@ export default function TestAPI() {
         className="p-4 bg-green-500 border hover:bg-slate-500"
         onClick={() =>
           PostsAPI.createPost(
-            `Onchain is new Online ${new Date().getTime()}`,
             "dungnguyen",
             `"Proudly presenting 𝐕𝐢𝐜𝐭𝐢𝐨𝐧 𝐖𝐨𝐫𝐥𝐝 𝐖𝐢𝐝𝐞 𝐂𝐡𝐚𝐢𝐧 🌐 - reimagining everything you thought you knew. Scale beyond limits, enhance security, embrace liberty, foster win-win for all, and unlock collective value creation."`
           )

@@ -4,6 +4,8 @@ import { useWallet } from "@coin98-com/wallet-adapter-react";
 import { useWalletModal } from "@coin98-com/wallet-adapter-react-ui";
 import { Feed } from "./components/Feed";
 import { Community } from "./components/Community";
+import { Button } from "@/components/ui/Button";
+import { SendVibeButton } from "./components/CreatePostModal";
 
 export default function Home() {
   const {
@@ -17,39 +19,24 @@ export default function Home() {
 
   return (
     <>
-      <div>
-        {!connected && <button onClick={openWalletModal}>Connect</button>}
-        {connected && <button onClick={disconnect}>Disconnect</button>}
-      </div>
-
-      <div>
-        {connected && (
-          <div>
-            <div>
-              Address: <span>{address}</span>
-            </div>
-
-            <div>
-              Network: <span>{selectedChainId}</span>
-            </div>
-
-            <div>
-              Blockchain: <span>{selectedBlockChain}</span>
-            </div>
-          </div>
-        )}
-      </div>
       <div className="flex gap-6">
-        <div className="flex-1">
-          Recommend Community 
+        <div className="w-[20%]">
+          <div className="text-text-secondary px-4 py-4">
+            Recommended Community
+          </div>
           <Community />
         </div>
-        <div className="flex-1">
-          Feed
+        <div className="w-[60%] border-l pl-6">
+          <div className="flex justify-between items-center  ">
+            <div className="text-text-secondary px-4 py-4">Feed</div>
+            <div>
+              <SendVibeButton />
+            </div>
+          </div>
           <Feed />
         </div>
-        <div className="flex-1">
-          Suggest & Events
+        <div className="w-[20%]">
+          <div className="text-text-secondary px-4 py-4"> Suggest & Events</div>
         </div>
       </div>
     </>

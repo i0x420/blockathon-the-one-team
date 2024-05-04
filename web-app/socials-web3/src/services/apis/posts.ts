@@ -22,10 +22,10 @@ const getPostById = async (id: string) => {
 
   return { community, error };
 };
-const createPost = async (title: string, author: string, content: string) => {
+const createPost = async (author: string, content: string) => {
   const { data: post, error } = await supabase
     .from("posts")
-    .insert([{ author, title, content }]);
+    .insert([{ author, title: "", content }]);
   console.log("createPost", { post, error });
 
   return { post, error };

@@ -7,6 +7,7 @@ import ConnectWallet from "./ConnectWallet";
 import NavMenu from "./NavMenu";
 import { useUserStore } from "@/stores/useUserStore";
 import { useRouter } from "next/navigation";
+import { IconSvg } from "@/components/ui/IconSvg";
 
 const MainHeader = () => {
   const { userInfo, setUserInfo } = useUserStore();
@@ -23,7 +24,7 @@ const MainHeader = () => {
       <div className="flex items-center flex-1">
         <Link prefetch={false} href="/" className="mr-4 ipadpro:mr-2">
           <div className="min-w-[theme(spacing.28)] ipad:min-w-0">
-            Theme logo
+            <IconSvg.Logo />
             {/* <ThemeLogo className="hidden lg:block" /> */}
           </div>
           {/* <Image

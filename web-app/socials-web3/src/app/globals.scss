@@ -8,7 +8,7 @@
 @import url("../assets/icons/style.css");
 
 // color variables
-:root {
+[data-theme="light"] {
   /*  theme colors  */
   --brand-primary: #cda439;
   --brand-secondary: #ad8837;
@@ -54,16 +54,16 @@
   --fixed-white: #fff;
 }
 
-[data-theme="light"] {
+:root {
   /* theme colors */
-  --brand-primary: #cda349;
+  --brand-primary: #F28E28;
   --brand-secondary: #e7ca8c;
   --brand-hover: #dab24a;
   --brand-disabled: #faf1db;
 
   /* grayscale colors */
   --text-primary: #1b1b1b;
-  --text-secondary: #777777;
+  --text-secondary: #999999;
   --text-placeholder: #bbbbbb;
   --text-disabled: #c8c8c8;
   --default-border: #dfdfdf;
