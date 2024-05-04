@@ -2,7 +2,6 @@
 
 import { AccountAPI, CommunityAPI, PostsAPI } from "@/services/apis";
 
-
 export default function TestAPI() {
   return (
     <div className="">
@@ -21,7 +20,9 @@ export default function TestAPI() {
       </div>
       <div
         className="p-4 bg-green-500 border hover:bg-slate-500"
-        onClick={() => AccountAPI.createAccount("dungnguyen1", "123456", "Dũng 2")}
+        onClick={() =>
+          AccountAPI.createAccount("lonngdo", "12345678", "Long Đỗ")
+        }
       >
         Create User
       </div>
@@ -47,15 +48,22 @@ export default function TestAPI() {
       </div>
       <div
         className="p-4 bg-green-500 border hover:bg-slate-500"
-        onClick={() => CommunityAPI.createCommunity(`Test community ${new Date().getTime()}`, "To the moon !!!")}
+        onClick={() =>
+          CommunityAPI.createCommunity(
+            `Test community ${new Date().getTime()}`,
+            "To the moon !!!"
+          )
+        }
       >
         Test Create Community
       </div>
       <div
         className="p-4 bg-green-500 border hover:bg-slate-500"
-        onClick={() => CommunityAPI.updateCommunity("the-one-team", {
-            description: "To the moon " + new Date().getTime()
-        })}
+        onClick={() =>
+          CommunityAPI.updateCommunity("the-one-team", {
+            description: "To the moon " + new Date().getTime(),
+          })
+        }
       >
         Test Update Community
       </div>
@@ -66,27 +74,33 @@ export default function TestAPI() {
       >
         Test Get AllPosts
       </div>
-      {/* <div
+      <div
         className="p-4 bg-green-500 border hover:bg-slate-500"
-        onClick={() => getCommunityBySlug("the-one-team")}
+        onClick={() =>
+          PostsAPI.getPostById("05f19ee5-9eaf-41f1-84b6-ab5dee2de14b")
+        }
       >
-        Test Get Community By Slug
-      </div> */}
-      {/* <div
+        Test Get Post By ID
+      </div>
+      <div
         className="p-4 bg-green-500 border hover:bg-slate-500"
-        onClick={() => createCommunity(`Test community ${new Date().getTime()}`, "To the moon !!!")}
+        onClick={() =>
+          PostsAPI.createPost(
+            "dungnguyen",
+            `"Proudly presenting 𝐕𝐢𝐜𝐭𝐢𝐨𝐧 𝐖𝐨𝐫𝐥𝐝 𝐖𝐢𝐝𝐞 𝐂𝐡𝐚𝐢𝐧 🌐 - reimagining everything you thought you knew. Scale beyond limits, enhance security, embrace liberty, foster win-win for all, and unlock collective value creation."`
+          )
+        }
       >
-        Test Create Community
-      </div> */}
-      {/* <div
+        Test Create Post
+      </div>
+      <div
         className="p-4 bg-green-500 border hover:bg-slate-500"
-        onClick={() => updateCommunity("the-one-team", {
-            description: "To the moon " + new Date().getTime()
+        onClick={() => PostsAPI.updatePost("05f19ee5-9eaf-41f1-84b6-ab5dee2de14b", {
+            title: `Onchain is new Online ${new Date().getTime()}`
         })}
       >
         Test Update Community
-      </div> */}
-
+      </div>
     </div>
   );
 }

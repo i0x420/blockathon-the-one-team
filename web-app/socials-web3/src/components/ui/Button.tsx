@@ -54,7 +54,7 @@ export const Button = ({
     <button
       type="button"
       className={twMerge(
-        "flex items-center justify-center gap-3 min-w-min px-4 h-10 rounded-lg transition whitespace-nowrap disabled:cursor-not-allowed disabled:text-text-disabled font-semibold phone:text-xs capitalize",
+        "flex items-center justify-center gap-3 min-w-min px-4 h-10 rounded transition whitespace-nowrap disabled:cursor-not-allowed disabled:text-text-disabled font-semibold phone:text-xs capitalize",
         color && colors[color],
         color && isDisabled && variantsDisabled[color],
         variant && variants[variant],

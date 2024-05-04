@@ -29,7 +29,7 @@ const checkIsExits = async (username: string, nftid: string) => {
     .eq("username", username);
 
   console.log("checkIsExits", { userInfo, error });
-  if (userInfo) {
+  if (userInfo.length) {
     return true;
   }
 
@@ -82,6 +82,7 @@ const updateUserNFT = async (username: string, nftid: string) => {
     .eq("username", username)
     .select();
   console.log("updateUserNFT", { userInfo, error });
+  return { userInfo, error };
 };
 
 export const AccountAPI = {
