@@ -76,7 +76,7 @@ const SignUpScreen = () => {
                 isRequired
                 errorMessage={get(errors, "fullname")?.message}
               >
-                <Input {...field} />
+                <Input isBlock {...field} />
               </InputGroup>
             )}
             control={control}
@@ -89,7 +89,7 @@ const SignUpScreen = () => {
                 isRequired
                 errorMessage={get(errors, "username")?.message}
               >
-                <Input {...field} />
+                <Input isBlock {...field} />
               </InputGroup>
             )}
             control={control}
@@ -102,7 +102,7 @@ const SignUpScreen = () => {
                 isRequired
                 errorMessage={get(errors, "password")?.message}
               >
-                <Input {...field} />
+                <Input isBlock {...field} />
               </InputGroup>
             )}
             control={control}
@@ -115,7 +115,7 @@ const SignUpScreen = () => {
                 isRequired
                 errorMessage={get(errors, "nftid")?.message}
               >
-                <Input {...field} />
+                <Input isBlock {...field} />
               </InputGroup>
             )}
             control={control}

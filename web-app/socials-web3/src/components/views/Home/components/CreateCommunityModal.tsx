@@ -15,7 +15,7 @@ type Inputs = {
   description: string;
 };
 
-export function CreateCommunityButton() {
+export function CreateCommunityButton({ refresh }: { refresh: () => void }) {
   let [isOpen, setIsOpen] = useState(false);
   const { userInfo, setUserInfo } = useUserStore();
   const [loading, setLoading] = useState(false);
@@ -58,6 +58,7 @@ export function CreateCommunityButton() {
     console.log(" Create post ok ");
 
     closeModal();
+    refresh();
     setLoading(false);
   };
 
@@ -107,7 +108,10 @@ export function CreateCommunityButton() {
                     </div>
                   </div>
 
-                  <form onSubmit={handleSubmit(onSubmit)} className="flex gap-6 flex-col">
+                  <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="flex gap-6 flex-col"
+                  >
                     <Controller
                       render={({ field }) => (
                         <InputGroup

@@ -51,6 +51,16 @@ const markPremiumPost = async (uuid: string) => {
 
   return { post, error };
 };
+const markProtectPost = async (uuid: string) => {
+  const { data: post, error } = await supabase
+    .from("posts")
+    .update({ protected: true })
+    .eq("uuid", uuid)
+    .select();
+  console.log("markProtectPost", { post, error });
+
+  return { post, error };
+};
 
 interface FetchNewFeedParams {
   username: string;
@@ -74,5 +84,6 @@ export const PostsAPI = {
   createPost,
   updatePost,
   markPremiumPost,
-  fetchNewFeed
+  fetchNewFeed,
+  markProtectPost
 };

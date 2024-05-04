@@ -21,6 +21,10 @@ export const Community = () => {
     }
   };
 
+  const refresh = async () => {
+    await fetchCommunity()
+  }
+
   return (
     <div className="flex gap-2 flex-col pt-6 mx-2">
       {communityList.map((p, index) => {
@@ -67,7 +71,7 @@ export const Community = () => {
       })}
       {userInfo?.username && (
         <div className="mx-2">
-          <CreateCommunityButton />
+          <CreateCommunityButton refresh={refresh}/>
         </div>
       )}
     </div>
