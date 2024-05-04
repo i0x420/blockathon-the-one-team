@@ -3,6 +3,7 @@ import { CommunityAPI, PostsAPI } from "@/services/apis";
 import { useUserStore } from "@/stores/useUserStore";
 import { useEffect, useState } from "react";
 import { CreateCommunityButton } from "./CreateCommunityModal";
+import Link from "next/link";
 
 export const Community = () => {
   const { userInfo } = useUserStore();
@@ -37,7 +38,7 @@ export const Community = () => {
                 srcSet={`https://picsum.photos/80/80?random=${index}`}
               />
               <div className="text-bold text-base hover:text-[#F28E28] truncate">
-                {p.name}
+                <Link href={`/community/${p.slug}`}>{p.name}</Link>
               </div>
             </div>
 

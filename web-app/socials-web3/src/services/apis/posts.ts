@@ -4,7 +4,7 @@
  * 3. Update
  */
 
-import { merge, uniqBy } from "lodash";
+import { compact, filter, merge, uniqBy } from "lodash";
 import { supabase } from "./clients";
 
 const getAllPosts = async () => {
@@ -22,10 +22,10 @@ const getPostById = async (id: string) => {
 
   return { community, error };
 };
-const createPost = async (author: string, content: string) => {
+const createPost = async (author: string, content: string, communitySlug?: string) => {
   const { data: post, error } = await supabase
     .from("posts")
-    .insert([{ author, title: "", content }]);
+    .insert([{ author, title: "", content, community: communitySlug }]);
   console.log("createPost", { post, error });
 
   return { post, error };
@@ -74,7 +74,14 @@ const fetchNewFeed = async ({ username, community }: FetchNewFeedParams) => {
   const premiumPost =  posts.filter((p) => Boolean(p.premium));
   const freedomPost =  posts.filter((p) => !Boolean(p.premium) && !Boolean(p.community));
 
-  return { posts: uniqBy([...communityPost, ...premiumPost, ...freedomPost], "uuid"), error };
+  const mergePost = uniqBy([...communityPost, ...premiumPost, ...freedomPost], "uuid");
+  const filteredCommunity = filter(mergePost, (p) => {
+    if (!community[0]) return true
+    if (p.community === community[0]) return true
+    return false
+  })
+
+  return { posts: filteredCommunity, error };
   // return { posts, error };
 };
 

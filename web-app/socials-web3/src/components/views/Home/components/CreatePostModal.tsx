@@ -13,7 +13,7 @@ type Inputs = {
   author: string;
 };
 
-export function SendVibeButton() {
+export function SendVibeButton({ communitySlug }: { communitySlug?: string }) {
   let [isOpen, setIsOpen] = useState(false);
   const { userInfo, setUserInfo } = useUserStore();
   const [loading, setLoading] = useState(false);
@@ -47,11 +47,13 @@ export function SendVibeButton() {
     console.log({ data });
     const { error, post } = await PostsAPI.createPost(
       data.author,
-      data.content
+      data.content,
+      communitySlug || ""
     );
     console.log(" Create post ok ");
-    
-    closeModal()
+
+    closeModal();
+    router.refresh()
     setLoading(false);
   };
 
@@ -103,10 +105,22 @@ export function SendVibeButton() {
 
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <Controller
-                      render={({ field }) => <InputArea rowsInput={6} isBlock {...field} className="" />}
+                      render={({ field }) => (
+                        <InputArea
+                          rowsInput={6}
+                          isBlock
+                          {...field}
+                          className=""
+                        />
+                      )}
                       control={control}
                       name="content"
                     />
+                    {communitySlug && (
+                      <div>
+                        Post to <span className="text-emerald-700 text-bold">{communitySlug}</span>
+                      </div>
+                    )}
                     <Button type="submit" isLoading={loading} className="mt-6">
                       Post
                     </Button>

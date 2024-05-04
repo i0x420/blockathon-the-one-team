@@ -3,21 +3,22 @@ import { Button } from "@/components/ui/Button";
 import { PostsAPI } from "@/services/apis";
 import { useUserStore } from "@/stores/useUserStore";
 import { useWallet } from "@coin98-com/wallet-adapter-react";
+import { compact } from "lodash";
 import { useEffect, useState } from "react";
 
-export const Feed = () => {
+export const Feed = ({ communitySlug = '' }: {communitySlug?: string} ) => {
   const { userInfo } = useUserStore();
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetchPosts();
+    fetchPosts([communitySlug]);
   }, [userInfo]);
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (community = []) => {
     // if (!userInfo) return;
     const { posts, error } = await PostsAPI.fetchNewFeed({
       username: userInfo?.username,
-      community: [],
+      community: compact([...community]),
     });
     console.log({ feed: posts });
 
@@ -27,7 +28,7 @@ export const Feed = () => {
   };
 
   const refresh = async () => {
-    await fetchPosts()
+    await fetchPosts([communitySlug])
   }
 
   return (
