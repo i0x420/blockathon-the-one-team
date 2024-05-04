@@ -28,7 +28,7 @@ export default function CommunityPage({ community }: any) {
             />
           </div>
           <div className="w-full">
-            <div className="text-bold text-lg px-6 pt-4">{community?.name}</div>
+            <div className="font-bold text-lg px-6 pt-4">{community?.name}</div>
             <div className="flex justify-start items-center px-6 pt-2 pb-4">
               <img
                 className="rounded w-8 h-8 mr-2"
@@ -48,8 +48,7 @@ export default function CommunityPage({ community }: any) {
           <div className="w-full  pl-6">
             <div className="flex justify-between items-center w-[75%] flex-col">
               <div className="flex justify-between items-center w-full">
-                <div className="text-text-secondary px-4 py-4">Feed</div>
-                <div>
+                <div className="w-full">
                   {userInfo?.username && (
                     <SendVibeButton communitySlug={community?.slug} />
                   )}

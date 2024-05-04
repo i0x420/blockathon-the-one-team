@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { InputGroup } from "@/components/ui/InputGroup";
+import { useToast } from "@/components/ui/Toaster/useToast";
 import { AccountAPI } from "@/services/apis";
 import { useUserStore } from "@/stores/useUserStore";
 import { get } from "lodash";
@@ -21,6 +22,7 @@ const SignUpScreen = () => {
   const { userInfo, setUserInfo } = useUserStore();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { toastNe } = useToast();
 
   const {
     register,
@@ -54,9 +56,13 @@ const SignUpScreen = () => {
 
     if (!error && accountInfo[0] && !error2) {
       setUserInfo(accountInfo[0]);
+      toastNe({ type: "success", description: "sign up success"})
+
       router.push("/");
     } else {
       console.log({ error: "Sign up failed " });
+      
+      toastNe({ type: "error", description: "sign up failed"})
 
       setUserInfo(null);
     }

@@ -1,12 +1,13 @@
 "use client";
 import { Button } from "@/components/ui/Button";
+import { useToast } from "@/components/ui/Toaster/useToast";
 import { PostsAPI } from "@/services/apis";
 import { useUserStore } from "@/stores/useUserStore";
 import { useWallet } from "@coin98-com/wallet-adapter-react";
 import { compact } from "lodash";
 import { useEffect, useState } from "react";
 
-export const Feed = ({ communitySlug = '' }: {communitySlug?: string} ) => {
+export const Feed = ({ communitySlug = "" }: { communitySlug?: string }) => {
   const { userInfo } = useUserStore();
   const [posts, setPosts] = useState([]);
 
@@ -18,7 +19,7 @@ export const Feed = ({ communitySlug = '' }: {communitySlug?: string} ) => {
     // if (!userInfo) return;
     const { posts, error } = await PostsAPI.fetchNewFeed({
       username: userInfo?.username,
-      community: compact([...community]),
+      community: compact([...community])
     });
     console.log({ feed: posts });
 
@@ -28,8 +29,8 @@ export const Feed = ({ communitySlug = '' }: {communitySlug?: string} ) => {
   };
 
   const refresh = async () => {
-    await fetchPosts([communitySlug])
-  }
+    await fetchPosts([communitySlug]);
+  };
 
   return (
     <div className="flex gap-6 flex-col mt-8">
@@ -43,6 +44,7 @@ export const Feed = ({ communitySlug = '' }: {communitySlug?: string} ) => {
 const PostItem = ({ p, index, refresh }: any) => {
   const [loading, setLoading] = useState(false);
   const { userInfo } = useUserStore();
+  const { toastNe } = useToast();
 
   const { signMessage } = useWallet();
 
@@ -59,7 +61,9 @@ const PostItem = ({ p, index, refresh }: any) => {
     // --- update Premium post
     const { post, error } = await PostsAPI.markPremiumPost(uuid);
 
-    refresh()
+    toastNe({ type: "success", description: "Boost premium success" });
+
+    refresh();
     setLoading(false);
   };
 
@@ -75,10 +79,11 @@ const PostItem = ({ p, index, refresh }: any) => {
 
     // --- update Premium post
     const { post, error } = await PostsAPI.markProtectPost(uuid);
+    toastNe({ type: "success", description: "Protect post success" });
 
-    refresh()
+    refresh();
     setLoading(false);
-  }
+  };
 
   return (
     <div className="flex gap-3 flex-col px-2 py-4 relative">
@@ -205,7 +210,11 @@ const PostItem = ({ p, index, refresh }: any) => {
             </Button>
           )}
           {userInfo?.username && !p.protected && (
-            <Button className="bg-emerald-600" onClick={() => protectPost(p.uuid)} isLoading={loading}>
+            <Button
+              className="bg-emerald-600"
+              onClick={() => protectPost(p.uuid)}
+              isLoading={loading}
+            >
               Protect $10 VIBE
             </Button>
           )}
