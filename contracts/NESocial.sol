@@ -3,6 +3,7 @@ pragma solidity 0.8.19;
 
 import "./interfaces/IFeeManager.sol";
 import "./interfaces/IVRC25.sol";
+import "./interfaces/IERC721.sol";
 
 import "./libraries/Ownable.sol";
 import "./libraries/Clones.sol";
@@ -20,10 +21,10 @@ contract NESocial is Ownable, ProxyFactory, AccessControl {
     IFeeManager private _feeManager;
 
     address[] private _communities;
-    mapping(address => bool) isActiveCommunity;
+    mapping(address => bool) _isActiveCommunity;
 
-    event PostCreated(address, bytes32);
-
+    event BoostedView(address, bytes32);
+    event PostProtected(address, bytes32);
     event NewCommunity(address);
 
     constructor(address feeManager) Ownable(msg.sender) {
@@ -44,7 +45,7 @@ contract NESocial is Ownable, ProxyFactory, AccessControl {
 
         _communities.push(address(newCollection));
 
-        isActiveCommunity[address(newCollection)] = true;
+        _isActiveCommunity[address(newCollection)] = true;
 
         emit NewCommunity(address(newCollection));
     }
@@ -65,7 +66,7 @@ contract NESocial is Ownable, ProxyFactory, AccessControl {
         );
         _communities.push(communityPFPCollection);
 
-        isActiveCommunity[communityPFPCollection] = true;
+        _isActiveCommunity[communityPFPCollection] = true;
 
         emit NewCommunity(communityPFPCollection);
     }
@@ -89,17 +90,40 @@ contract NESocial is Ownable, ProxyFactory, AccessControl {
         }
     }
 
-    function deactiveCommunity(address community) external onlyAdmin {
-        isActiveCommunity[community] = false;
+    function deactiveCommunityChanel(address community) external onlyAdmin {
+        _isActiveCommunity[community] = false;
     }
 
-    function createPost(address community, bytes32 postId) external onlyAdmin {
+    function boostView(address community, bytes32 postId) external onlyAdmin {
         (uint256 serviceFee, address feeToken) = _feeManager.getServiceFee(
-            keccak256("createPost")
+            keccak256("boostView")
         );
+
+        require(
+            _isActiveCommunity[community] == true &&
+                Ownable(community).owner() == msg.sender,
+            "Invalid community !"
+        );
+
         _takeFee(feeToken, serviceFee);
 
-        emit PostCreated(community, postId);
+        emit BoostedView(community, postId);
+    }
+
+    function protectPost(address community, bytes32 postId) external onlyAdmin {
+        (uint256 serviceFee, address feeToken) = _feeManager.getServiceFee(
+            keccak256("protectPost")
+        );
+
+        require(
+            _isActiveCommunity[community] == true &&
+                Ownable(community).owner() == msg.sender,
+            "Invalid community !"
+        );
+
+        _takeFee(feeToken, serviceFee);
+
+        emit PostProtected(community, postId);
     }
 
     function getFee(bytes32 service) external view returns (uint256) {
@@ -115,5 +139,17 @@ contract NESocial is Ownable, ProxyFactory, AccessControl {
 
     function setAdmin(address admin, bool isActive) external virtual override {
         _setAdmin(admin, isActive);
+    }
+
+    function isActiveCommunity(address community) external view returns (bool) {
+        return _isActiveCommunity[community];
+    }
+
+    function getCommunities() external view returns (address[] memory) {
+        return _communities;
+    }
+
+    function getData() external pure returns (bytes32, bytes32) {
+        return (keccak256("protectPost"), keccak256("boostView"));
     }
 }

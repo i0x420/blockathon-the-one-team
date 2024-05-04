@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx hardhat test",
-    "setup": "npx hardhat run scripts/deploy.ts --network hardhat"
+    "setup": "npx hardhat run scripts/deploy.ts --network viction"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "~1.0.5",
