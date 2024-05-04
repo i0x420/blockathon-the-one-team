@@ -28,6 +28,9 @@ export default function Home() {
             Recommended Community
           </div>
           <Community />
+          <div className="text-text-secondary px-4 py-4">
+            Your community
+          </div>
         </div>
         <div className="w-[60%] border-l pl-6">
           <div className="flex justify-between items-center w-full flex-1">

@@ -6,7 +6,7 @@ import { Icon } from "../Icon";
 export type ToastParams = ToastOptions & {
   type?: TypeOptions;
   title?: string;
-  description: string;
+  description: string | React.ReactNode;
   hideIcon?: boolean;
   timeToLeave?: number;
 };
