@@ -1,4 +1,3 @@
-import { KEY_STORE } from "@/common/constants";
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -8,10 +7,9 @@ import axios, {
 } from "axios";
 
 // import crypto from "crypto-js";
+import { KEY_STORE } from "@/common/constants";
 import { get } from "lodash";
 import qs from "query-string";
-
-// import { useWalletStore } from "stores/useWalletStore";
 
 import {
   genErrorResponse,

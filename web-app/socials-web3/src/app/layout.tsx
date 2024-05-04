@@ -1,13 +1,20 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import "./globals.scss";
 
+// components
 import GlobalHooks from "@/components/GlobalHooks";
 import Providers from "@/components/Providers";
-import TopLoader from "@/components/ui/TopLoader";
 import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
+import TopLoader from "@/components/ui/TopLoader";
+import MainFooter from "@/components/layouts/MainFooter";
+import MainHeader from "@/components/layouts/MainHeader";
 
-const inter = Inter({ subsets: ["latin"] });
+import { Noto_Sans as NotoSans } from "next/font/google";
+
+const notoSans = NotoSans({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Super Social Web3",
@@ -21,11 +28,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={notoSans.className}>
         <Providers>
           <TopLoader />
           <GlobalHooks />
-          {children}
+          <MainHeader />
+          <main className="mt-header min-h-screen">{children}</main>
+          <MainFooter />
           <ScrollToTopButton />
         </Providers>
       </body>

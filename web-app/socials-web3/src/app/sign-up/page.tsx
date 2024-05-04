@@ -1,5 +1,5 @@
 import { AccountProvider } from "@/contexts/AccountContext";
-import SignUpScreen from "@/views/SignUp";
+import SignUpScreen from "@/components/views/SignUp";
 
 const SignUpPage = () => {
   return (
