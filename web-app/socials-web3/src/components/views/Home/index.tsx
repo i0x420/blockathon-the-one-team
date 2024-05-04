@@ -30,9 +30,8 @@ export default function Home() {
           <Community />
         </div>
         <div className="w-[60%] border-l pl-6">
-          <div className="flex justify-between items-center  ">
-            <div className="text-text-secondary px-4 py-4">Feed</div>
-            <div>{userInfo?.username && <SendVibeButton />}</div>
+          <div className="flex justify-between items-center w-full flex-1">
+            <div className="w-full">{userInfo?.username && <SendVibeButton />}</div>
           </div>
           <Feed />
         </div>

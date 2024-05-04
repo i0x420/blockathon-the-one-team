@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/Input";
 import { InputArea } from "@/components/ui/InputArea";
 import { PostsAPI } from "@/services/apis";
 import { useUserStore } from "@/stores/useUserStore";
+import { useWallet } from "@coin98-com/wallet-adapter-react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
@@ -18,6 +19,8 @@ export function SendVibeButton({ communitySlug }: { communitySlug?: string }) {
   const { userInfo, setUserInfo } = useUserStore();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const { signMessage } = useWallet()
 
   const {
     register,
@@ -45,6 +48,9 @@ export function SendVibeButton({ communitySlug }: { communitySlug?: string }) {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
     console.log({ data });
+    const sign = await signMessage("Confirm post your status!")
+
+    if (!sign) return setLoading(false)
     const { error, post } = await PostsAPI.createPost(
       data.author,
       data.content,
@@ -53,13 +59,25 @@ export function SendVibeButton({ communitySlug }: { communitySlug?: string }) {
     console.log(" Create post ok ");
 
     closeModal();
-    router.refresh()
+    router.refresh();
     setLoading(false);
   };
 
   return (
     <>
-      <Button onClick={openModal}>Send Vibe</Button>
+      <div onClick={openModal} className="py-6 border-b-4 w-full">
+        <div className="flex justify-start items-center cursor-pointer">
+          <img
+            className="rounded w-12 h-12 mr-4"
+            alt={"avatar"}
+            srcSet={`https://picsum.photos/80/80?random=123`}
+          />
+          <div>
+            <span className="text-text-secondary text-xl">What on your mind?</span>
+          </div>
+        </div>
+      </div>
+      {/* <Button onClick={openModal}>Send Vibe</Button> */}
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -118,10 +136,13 @@ export function SendVibeButton({ communitySlug }: { communitySlug?: string }) {
                     />
                     {communitySlug && (
                       <div>
-                        Post to <span className="text-emerald-700 text-bold">{communitySlug}</span>
+                        Post to{" "}
+                        <span className="text-emerald-700 text-bold">
+                          {communitySlug}
+                        </span>
                       </div>
                     )}
-                    <Button type="submit" isLoading={loading} className="mt-6">
+                    <Button type="submit" isBlock isLoading={loading} className="mt-6">
                       Post
                     </Button>
                   </form>

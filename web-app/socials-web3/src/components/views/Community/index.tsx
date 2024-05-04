@@ -48,8 +48,7 @@ export default function CommunityPage({ community }: any) {
           <div className="w-full  pl-6">
             <div className="flex justify-between items-center w-[75%] flex-col">
               <div className="flex justify-between items-center w-full">
-                <div className="text-text-secondary px-4 py-4">Feed</div>
-                <div>
+                <div className="w-full">
                   {userInfo?.username && (
                     <SendVibeButton communitySlug={community?.slug} />
                   )}
