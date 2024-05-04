@@ -29,7 +29,7 @@ const checkIsExits = async (username: string, nftid: string) => {
     .eq("username", username);
 
   console.log("checkIsExits", { userInfo, error });
-  if (userInfo) {
+  if (userInfo.length) {
     return true;
   }
 

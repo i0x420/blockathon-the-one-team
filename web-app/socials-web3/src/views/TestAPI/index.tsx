@@ -21,7 +21,7 @@ export default function TestAPI() {
       <div
         className="p-4 bg-green-500 border hover:bg-slate-500"
         onClick={() =>
-          AccountAPI.createAccount("dungnguyen1", "123456", "Dũng 2")
+          AccountAPI.createAccount("lonngdo", "12345678", "Long Đỗ")
         }
       >
         Create User

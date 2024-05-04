@@ -4,6 +4,7 @@
  * 3. Update
  */
 
+import { merge } from "lodash";
 import { supabase } from "./clients";
 
 const getAllPosts = async () => {
@@ -39,6 +40,24 @@ const updatePost = async (id: string, body: any) => {
 
   return { post, error };
 };
+
+interface FetchNewFeedParams {
+  username: string;
+  community: string[];
+}
+
+const fetchNewFeed = async ({
+  username,
+  community,
+}: FetchNewFeedParams) => {
+  const { data: posts, error } = await supabase.from("posts").select("*");
+
+  const communityPost = []
+  const premiumPost = []
+  const freedomPost = []
+
+  return { posts: merge(communityPost, premiumPost, freedomPost), error };
+}
 
 export const PostsAPI = {
   getAllPosts,
