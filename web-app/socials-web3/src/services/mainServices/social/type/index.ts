@@ -12,6 +12,20 @@ export type RegisterCommunityChanel = {
   connector: WalletContextState;
 };
 
+export type BoostView = {
+  communityAddress: string;
+  community: string;
+  postId: string;
+  connector: WalletContextState;
+};
+
+export type ProtectPost = {
+  communityAddress: string;
+  community: string;
+  postId: string;
+  connector: WalletContextState;
+};
+
 export type JoinCommunityChanel = {
   communityAddress: string;
   connector: WalletContextState;
