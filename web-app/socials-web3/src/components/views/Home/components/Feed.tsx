@@ -3,21 +3,22 @@ import { Button } from "@/components/ui/Button";
 import { PostsAPI } from "@/services/apis";
 import { useUserStore } from "@/stores/useUserStore";
 import { useWallet } from "@coin98-com/wallet-adapter-react";
+import { compact } from "lodash";
 import { useEffect, useState } from "react";
 
-export const Feed = () => {
+export const Feed = ({ communitySlug = '' }: {communitySlug?: string} ) => {
   const { userInfo } = useUserStore();
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetchPosts();
+    fetchPosts([communitySlug]);
   }, [userInfo]);
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (community = []) => {
     // if (!userInfo) return;
     const { posts, error } = await PostsAPI.fetchNewFeed({
       username: userInfo?.username,
-      community: [],
+      community: compact([...community]),
     });
     console.log({ feed: posts });
 
@@ -26,16 +27,20 @@ export const Feed = () => {
     }
   };
 
+  const refresh = async () => {
+    await fetchPosts([communitySlug])
+  }
+
   return (
     <div className="flex gap-6 flex-col mt-8">
       {posts.map((p, index) => {
-        return <PostItem p={p} index={index} />;
+        return <PostItem p={p} index={index} refresh={refresh} />;
       })}
     </div>
   );
 };
 
-const PostItem = ({ p, index }: any) => {
+const PostItem = ({ p, index, refresh }: any) => {
   const [loading, setLoading] = useState(false);
   const { userInfo } = useUserStore();
 
@@ -54,8 +59,26 @@ const PostItem = ({ p, index }: any) => {
     // --- update Premium post
     const { post, error } = await PostsAPI.markPremiumPost(uuid);
 
+    refresh()
     setLoading(false);
   };
+
+  const protectPost = async (uuid: string) => {
+    setLoading(true);
+    // Await onchain
+
+    const sign = await signMessage("Protect this post forever with $10 VIBE");
+
+    console.log({ uuid, sign });
+
+    if (!sign) return setLoading(false);
+
+    // --- update Premium post
+    const { post, error } = await PostsAPI.markProtectPost(uuid);
+
+    refresh()
+    setLoading(false);
+  }
 
   return (
     <div className="flex gap-3 flex-col px-2 py-4 relative">
@@ -76,15 +99,20 @@ const PostItem = ({ p, index }: any) => {
           </span>
         </div>
       </div>
-      <div className="absolute top-2 right-2 flex gap-2 flex-col">
+      <div className="absolute top-2 right-2 flex gap-2 bg-background-surface">
         {p.community && (
-          <div className="border-[#2BBFE2] text-[#2BBFE2] border px-1">
+          <div className="border-[#2BBFE2] text-[#2BBFE2] border px-1 rounded">
             <span className="text-[#2BBFE2]">{p.community}</span>
           </div>
         )}
         {p.premium && (
-          <div className="border-[#F28E28] text-[#F28E28] border px-1">
+          <div className="border-[#F28E28] text-[#F28E28] border px-1 rounded">
             {<span className="text-orange">Premium</span>}
+          </div>
+        )}
+        {p.protected && (
+          <div className="border-[#006400] text-[#006400] border px-1 rounded">
+            {<span className="text-[#006400]">Protected</span>}
           </div>
         )}
       </div>
@@ -170,10 +198,15 @@ const PostItem = ({ p, index }: any) => {
             />
           </svg>
         </div>
-        <div>
+        <div className="flex gap-2">
           {userInfo?.username && (
             <Button onClick={() => boostViewer(p.uuid)} isLoading={loading}>
               Boost View $100 VIBE
+            </Button>
+          )}
+          {userInfo?.username && !p.protected && (
+            <Button className="bg-emerald-600" onClick={() => protectPost(p.uuid)} isLoading={loading}>
+              Protect $10 VIBE
             </Button>
           )}
         </div>

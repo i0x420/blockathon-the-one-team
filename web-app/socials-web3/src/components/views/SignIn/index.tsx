@@ -68,7 +68,7 @@ const SignInScreen = () => {
                 isRequired
                 errorMessage={get(errors, "username")?.message}
               >
-                <Input {...field} />
+                <Input isBlock {...field} />
               </InputGroup>
             )}
             control={control}
@@ -81,7 +81,7 @@ const SignInScreen = () => {
                 isRequired
                 errorMessage={get(errors, "password")?.message}
               >
-                <Input {...field} />
+                <Input isBlock {...field} />
               </InputGroup>
             )}
             control={control}
@@ -94,7 +94,7 @@ const SignInScreen = () => {
                 isRequired
                 errorMessage={get(errors, "nftid")?.message}
               >
-                <Input {...field} />
+                <Input isBlock {...field} />
               </InputGroup>
             )}
             control={control}
