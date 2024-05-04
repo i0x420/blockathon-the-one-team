@@ -4,10 +4,11 @@ import "./globals.scss";
 // components
 import GlobalHooks from "@/components/GlobalHooks";
 import Providers from "@/components/Providers";
-import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
-import TopLoader from "@/components/ui/TopLoader";
 import MainFooter from "@/components/layouts/MainFooter";
 import MainHeader from "@/components/layouts/MainHeader";
+import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
+import TopLoader from "@/components/ui/TopLoader";
+import { Toaster } from "@/components/ui/Toaster";
 
 import { Noto_Sans as NotoSans } from "next/font/google";
 
@@ -35,6 +36,7 @@ export default function RootLayout({
           <MainHeader />
           <main className="mt-header min-h-screen">{children}</main>
           <MainFooter />
+          <Toaster limit={5} />
           <ScrollToTopButton />
         </Providers>
       </body>
