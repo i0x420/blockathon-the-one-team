@@ -1,6 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
+import { Tabs } from "@/components/ui/Tabs";
+import { useToast } from "@/components/ui/Toaster/useToast";
 import { SocialService } from "@/services/mainServices";
 import {
   getAddressMainToken,
@@ -11,6 +13,7 @@ import { useWallet } from "@coin98-com/wallet-adapter-react";
 
 const TestPage = () => {
   const walletConnector = useWallet();
+  const { toastNe } = useToast();
 
   const handleCreateCommunityChannel = async () => {
     if (!walletConnector.connected) return "Please connect wallet";
@@ -59,6 +62,7 @@ const TestPage = () => {
   };
 
   const handleGetCommunities = async () => {
+    toastNe({ type: "success", description: "HIHIHIHI" });
     const mainServices = new SocialService("tomo");
     const communities = await mainServices.getCommunities();
     console.log("communities: ", communities);
@@ -66,6 +70,13 @@ const TestPage = () => {
 
   return (
     <div className="flex items-center gap-4">
+      <Tabs
+        variant="background"
+        items={[
+          { title: "AAA", content: "A ne" },
+          { title: "BBB", content: "B ne" }
+        ]}
+      />
       <Button onClick={handleCreateCommunityChannel}>
         Create Community Channel
       </Button>
