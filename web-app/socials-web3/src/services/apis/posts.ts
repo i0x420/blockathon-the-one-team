@@ -4,7 +4,7 @@
  * 3. Update
  */
 
-import { merge } from "lodash";
+import { merge, uniqBy } from "lodash";
 import { supabase } from "./clients";
 
 const getAllPosts = async () => {
@@ -60,12 +60,12 @@ interface FetchNewFeedParams {
 const fetchNewFeed = async ({ username, community }: FetchNewFeedParams) => {
   const { data: posts, error } = await supabase.from("posts").select("*");
 
-  const communityPost = [];
-  const premiumPost = [];
-  const freedomPost = [];
+  const communityPost = posts.filter((p) => Boolean(p.community));
+  const premiumPost =  posts.filter((p) => Boolean(p.premium));
+  const freedomPost =  posts.filter((p) => !Boolean(p.premium) && !Boolean(p.community));
 
-  // return { posts: merge(communityPost, premiumPost, freedomPost), error };
-  return { posts, error };
+  return { posts: uniqBy([...communityPost, ...premiumPost, ...freedomPost], "uuid"), error };
+  // return { posts, error };
 };
 
 export const PostsAPI = {
@@ -73,5 +73,6 @@ export const PostsAPI = {
   getPostById,
   createPost,
   updatePost,
-  markPremiumPost
+  markPremiumPost,
+  fetchNewFeed
 };

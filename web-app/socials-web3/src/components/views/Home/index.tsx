@@ -2,6 +2,8 @@
 
 import { useWallet } from "@coin98-com/wallet-adapter-react";
 import { useWalletModal } from "@coin98-com/wallet-adapter-react-ui";
+import { Feed } from "./components/Feed";
+import { Community } from "./components/Community";
 
 export default function Home() {
   const {
@@ -36,6 +38,19 @@ export default function Home() {
             </div>
           </div>
         )}
+      </div>
+      <div className="flex gap-6">
+        <div className="flex-1">
+          Recommend Community 
+          <Community />
+        </div>
+        <div className="flex-1">
+          Feed
+          <Feed />
+        </div>
+        <div className="flex-1">
+          Suggest & Events
+        </div>
       </div>
     </>
   );
