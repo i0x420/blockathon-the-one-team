@@ -82,6 +82,7 @@ const updateUserNFT = async (username: string, nftid: string) => {
     .eq("username", username)
     .select();
   console.log("updateUserNFT", { userInfo, error });
+  return { userInfo, error };
 };
 
 export const AccountAPI = {

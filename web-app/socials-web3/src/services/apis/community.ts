@@ -13,7 +13,7 @@ const getAllCommunity = async () => {
     .select("*");
   console.log("getAllCommunity", { community, error });
 
-  return community;
+  return { community, error };
 };
 const getCommunityBySlug = async (slug: string) => {
   const { data: community, error } = await supabase
@@ -22,7 +22,7 @@ const getCommunityBySlug = async (slug: string) => {
     .eq("slug", slug);
   console.log("getCommunityBySlug", { community, error });
 
-  return community;
+  return { community, error };
 };
 const createCommunity = async (name: string, description: string) => {
   const { data: community, error } = await supabase
@@ -32,7 +32,7 @@ const createCommunity = async (name: string, description: string) => {
     ]);
   console.log("createCommunity", { community, error });
 
-  return community;
+  return { community, error };
 };
 const updateCommunity = async (slug: string, body: any) => {
   const { data: community, error } = await supabase
@@ -42,7 +42,7 @@ const updateCommunity = async (slug: string, body: any) => {
     .select();
   console.log("updateCommunity", { community, error });
 
-  return community;
+  return { community, error };
 };
 
 export const CommunityAPI = {
