@@ -27,6 +27,24 @@ export default function CommunityPage({ community }: any) {
               src={`https://picsum.photos/800/360?random=126`}
             />
           </div>
+          <div className="w-full">
+            <div className="text-bold text-lg px-6 pt-4">{community?.name}</div>
+            <div className="flex justify-start items-center px-6 pt-2 pb-4">
+              <img
+                className="rounded w-8 h-8 mr-2"
+                alt={`${community?.name}`}
+                srcSet={`https://picsum.photos/80/80?random=111`}
+              />
+              <div>
+                <span className="cursor-pointer text-bold">
+                  Create by:{" "}
+                  <span className="text-bold text-[#F28E28]">
+                    {community?.author || "longdo"}
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
           <div className="w-full  pl-6">
             <div className="flex justify-between items-center w-[75%] flex-col">
               <div className="flex justify-between items-center w-full">
