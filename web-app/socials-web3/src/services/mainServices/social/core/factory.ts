@@ -1,6 +1,11 @@
 import { CHAIN_KIND, getChainKind } from "@/utils";
 import { EvmSocialService } from "../evm";
-import { CreateCommunityChanel, RegisterCommunityChanel } from "../type";
+import {
+  CreateCommunityChanel,
+  GetCommunityAddressBySalt,
+  JoinCommunityChanel,
+  RegisterCommunityChanel
+} from "../type";
 
 export class SocialService {
   private service;
@@ -11,7 +16,7 @@ export class SocialService {
     this.service = this.initService();
   }
 
-  initService() {
+  private initService() {
     const chain = this.chain;
     const chainKind = getChainKind(chain);
 
@@ -34,12 +39,42 @@ export class SocialService {
     }
   }
 
+  async joinCommunityChanel(params: JoinCommunityChanel) {
+    try {
+      const response = await this.service.joinCommunityChanel(params);
+      return response;
+    } catch (error) {
+      console.log("error ~ join community chanel: ", error);
+      throw error;
+    }
+  }
+
   async registerCommunityChanel(params: RegisterCommunityChanel) {
     try {
       const response = await this.service.registerCommunityChanel(params);
       return response;
     } catch (error) {
       console.log("error ~ register community chanel: ", error);
+      throw error;
+    }
+  }
+
+  async getCommunityAddressBySalt(params: GetCommunityAddressBySalt) {
+    try {
+      const response = await this.service.getCommunityAddressBySalt(params);
+      return response;
+    } catch (error) {
+      console.log("error ~ get community chanel address: ", error);
+      throw error;
+    }
+  }
+
+  async getCommunities() {
+    try {
+      const response = await this.service.GetCommunities();
+      return response;
+    } catch (error) {
+      console.log("error ~ get communities: ", error);
       throw error;
     }
   }

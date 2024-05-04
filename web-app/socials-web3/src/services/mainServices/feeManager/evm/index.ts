@@ -6,7 +6,7 @@ import {
 } from "@/utils";
 import { get } from "lodash";
 import { feeManagerABI } from "../../abi/feeManagerABI";
-import { getAddressFeeManager } from "../../common/utils";
+// import { getAddressFeeManager } from "../../common/utils";
 
 export class EvmFeeManagerService {
   private client: Web3Services;
@@ -21,7 +21,8 @@ export class EvmFeeManagerService {
     const client = this.client;
     const chainData = getChainData(this._chain);
     const numChainId = get(chainData, "numChainId");
-    const contractAddress = getAddressFeeManager(numChainId) as string;
+    // const contractAddress = getAddressFeeManager(numChainId) as string;
+    const contractAddress = ''
     const contract = client.getContract<typeof feeManagerABI>(
       feeManagerABI,
       contractAddress

@@ -1,4 +1,4 @@
-export type ContractType = "FEE_MANAGER" | "SOCIAL";
+export type ContractType = "MAIN_TOKEN" | "SOCIAL";
 
 export type ContractKey = {
   [chainId: string | number]: string | string[];

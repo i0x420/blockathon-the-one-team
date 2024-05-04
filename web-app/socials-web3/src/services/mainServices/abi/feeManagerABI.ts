@@ -1,6 +1,12 @@
 export const feeManagerABI = [
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "feeReceiver",
+        type: "address",
+      },
+    ],
     stateMutability: "nonpayable",
     type: "constructor",
   },

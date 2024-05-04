@@ -27,7 +27,6 @@
     "web3": "^4.8.0",
     "web3-old": "npm:web3@1.7.4",
     "zustand": "^4.5.2",
-
     "axios": "1.4.0",
     "bignumber.js": "^9.1.1",
     "bn.js": "^5.2.1",
@@ -55,7 +54,6 @@
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
-
     "@types/bn.js": "^5.1.1",
     "@types/crypto-js": "^4.1.1",
     "@types/js-cookie": "^3.0.3",

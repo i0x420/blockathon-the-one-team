@@ -2,36 +2,26 @@ export const socialABI = [
   {
     inputs: [
       {
-        internalType: "string",
-        name: "name",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "symbol",
-        type: "string",
-      },
-      {
-        internalType: "address",
-        name: "issuer",
-        type: "address",
-      },
-    ],
-    name: "createCommunityChanel",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "address",
         name: "feeManager",
-        type: "address",
-      },
+        type: "address"
+      }
     ],
     stateMutability: "nonpayable",
-    type: "constructor",
+    type: "constructor"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "",
+        type: "address"
+      }
+    ],
+    name: "NewCommunity",
+    type: "event"
   },
   {
     anonymous: false,
@@ -40,69 +30,187 @@ export const socialABI = [
         indexed: true,
         internalType: "address",
         name: "previousOwner",
-        type: "address",
+        type: "address"
       },
       {
         indexed: true,
         internalType: "address",
         name: "newOwner",
-        type: "address",
-      },
+        type: "address"
+      }
     ],
     name: "OwnershipTransferred",
-    type: "event",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "",
+        type: "address"
+      },
+      {
+        indexed: false,
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32"
+      }
+    ],
+    name: "PostCreated",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "admin",
+        type: "address"
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "isActive",
+        type: "bool"
+      }
+    ],
+    name: "SetAdmin",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "implement",
+        type: "address"
+      }
+    ],
+    name: "SetImplement",
+    type: "event"
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "salt",
+        type: "bytes32"
+      },
+      {
+        internalType: "bytes",
+        name: "callData",
+        type: "bytes"
+      }
+    ],
+    name: "createCommunityChanel",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
   },
   {
     inputs: [
       {
         internalType: "address",
-        name: "communityPFPCollection",
-        type: "address",
+        name: "community",
+        type: "address"
       },
+      {
+        internalType: "bytes32",
+        name: "postId",
+        type: "bytes32"
+      }
     ],
-    name: "registerCommunityChanel",
+    name: "createPost",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    type: "function"
   },
   {
     inputs: [
       {
         internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
+        name: "community",
+        type: "address"
+      }
     ],
-    name: "transferOwnership",
+    name: "deactiveCommunity",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
+    type: "function"
   },
   {
     inputs: [
       {
         internalType: "bytes32",
         name: "service",
-        type: "bytes32",
-      },
+        type: "bytes32"
+      }
     ],
     name: "getFee",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256",
-      },
+        type: "uint256"
+      }
     ],
     stateMutability: "view",
-    type: "function",
+    type: "function"
+  },
+  {
+    inputs: [],
+    name: "getImplement",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address"
+      }
+    ],
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "salt",
+        type: "bytes32"
+      }
+    ],
+    name: "getInstanceAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address"
+      }
+    ],
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "admin",
+        type: "address"
+      }
+    ],
+    name: "isActiveAdmin",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool"
+      }
+    ],
+    stateMutability: "view",
+    type: "function"
   },
   {
     inputs: [],
@@ -111,10 +219,87 @@ export const socialABI = [
       {
         internalType: "address",
         name: "",
-        type: "address",
-      },
+        type: "address"
+      }
     ],
     stateMutability: "view",
-    type: "function",
+    type: "function"
   },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "communityPFPCollection",
+        type: "address"
+      }
+    ],
+    name: "registerCommunityChanel",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "admin",
+        type: "address"
+      },
+      {
+        internalType: "bool",
+        name: "isActive",
+        type: "bool"
+      }
+    ],
+    name: "setAdmin",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "implement",
+        type: "address"
+      }
+    ],
+    name: "setImplement",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address"
+      }
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [],
+    name: "getCommunities",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "",
+        type: "address[]"
+      }
+    ],
+    stateMutability: "view",
+    type: "function"
+  }
 ] as const;

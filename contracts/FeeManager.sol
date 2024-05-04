@@ -8,7 +8,11 @@ import "./libraries/Ownable.sol";
 contract FeeManager is Ownable, IFeeManager {
     mapping(bytes32 => uint256) _serviceFee;
 
-    constructor() Ownable(msg.sender) {}
+    address private _feeReceiver;
+
+    constructor(address feeReceiver) Ownable(msg.sender) {
+        _feeReceiver = feeReceiver;
+    }
 
     function configService(
         bytes32 serviceName,
@@ -24,6 +28,6 @@ contract FeeManager is Ownable, IFeeManager {
     }
 
     function getFeeReceiverAddress() external view override returns (address) {
-        return address(this);
+        return _feeReceiver;
     }
 }

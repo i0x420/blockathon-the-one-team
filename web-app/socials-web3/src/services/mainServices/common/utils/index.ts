@@ -5,8 +5,8 @@ export const getAddress = (address: ContractKey, chainId: string | number) => {
   return address[chainId] ? address[chainId] : address[56];
 };
 
-export const getAddressFeeManager = (chainId: number) => {
-  return getAddress(CONTRACT_ADDRESS.FEE_MANAGER, chainId);
+export const getAddressMainToken = (chainId: number) => {
+  return getAddress(CONTRACT_ADDRESS.MAIN_TOKEN, chainId);
 };
 
 export const getAddressSocial = (chainId: number) => {

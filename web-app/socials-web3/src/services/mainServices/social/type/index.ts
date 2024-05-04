@@ -11,3 +11,12 @@ export type RegisterCommunityChanel = {
   communityAddress: string;
   connector: WalletContextState;
 };
+
+export type JoinCommunityChanel = {
+  communityAddress: string;
+  connector: WalletContextState;
+};
+
+export type GetCommunityAddressBySalt = {
+  salt: any
+}

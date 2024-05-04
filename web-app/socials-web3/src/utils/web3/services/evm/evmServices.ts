@@ -1,27 +1,27 @@
-import { ContractAbi, Web3, validator } from 'web3';
+import { ContractAbi, Web3, validator } from "web3";
 
 import {
   AbstractServices,
   ApproveParams,
-  TokenAllowanceParams,
-} from '../abstract/abstractServices';
-import { ERC20ABI } from '../../abi';
+  TokenAllowanceParams
+} from "../abstract/abstractServices";
+import { ERC20ABI } from "../../abi";
 
-import { GetBalancesParams } from '../../../type';
+import { GetBalancesParams } from "../../../type";
 import {
   ADDRESS_ZERO,
   CHAIN_DATA,
   CHAIN_TYPE,
   LIST_CHAIN_SUPPORT,
-  genSuccessResponse,
-} from '../../../common';
-import * as Web3Old from 'web3-old';
+  genSuccessResponse
+} from "../../../common";
+import * as Web3Old from "web3-old";
 
 export class EvmServices extends AbstractServices {
   protected connection: Web3;
   protected _rpc: string;
   MAX_INT =
-    '115792089237316195423570985008687907853269984665640564039457584007913129639935';
+    "115792089237316195423570985008687907853269984665640564039457584007913129639935";
 
   constructor(chain: LIST_CHAIN_SUPPORT, rpc: string) {
     super();
@@ -59,13 +59,13 @@ export class EvmServices extends AbstractServices {
       }
 
       // Main Balance
-      const latestBlock = 'latest';
+      const latestBlock = "latest";
       const balance = await client.eth.getBalance(ownerAddress, latestBlock);
 
       return balance.toString();
     } catch (err) {
       // throw err;
-      return '0';
+      return "0";
     }
   }
 
@@ -80,7 +80,7 @@ export class EvmServices extends AbstractServices {
   async getTokenAllowance({
     tokenAddress,
     spenderAddress,
-    ownerAddress,
+    ownerAddress
   }: TokenAllowanceParams) {
     try {
       const contract = this.getContract(ERC20ABI, tokenAddress);
@@ -98,10 +98,12 @@ export class EvmServices extends AbstractServices {
     ownerAddress,
     tokenAddress,
     spenderAddress,
-    connector,
+    connector
   }: ApproveParams) {
+    console.log({ ownerAddress, tokenAddress, spenderAddress, connector });
     try {
       const contract = this.getContract(ERC20ABI, tokenAddress);
+      console.log({ contract });
       const approveAbi = contract.methods
         .approve(spenderAddress, this.MAX_INT)
         .encodeABI();
@@ -110,9 +112,10 @@ export class EvmServices extends AbstractServices {
         from: ownerAddress,
         to: tokenAddress,
         data: approveAbi,
-        isWaitDone: true,
+        isWaitDone: true
       };
 
+      console.log({ approveAbi, txn });
       const txnHash = await connector.sendTransaction(txn);
       return genSuccessResponse(txnHash);
     } catch (err) {

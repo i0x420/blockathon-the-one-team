@@ -1,15 +1,14 @@
-import { Web3, Contract, ContractAbi } from 'web3';
-import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
-import { Connection as SolanaConnection } from '@solana/web3.js';
+import { Contract, ContractAbi, Web3 } from "web3";
 
-import { DataResponse, LIST_CHAIN_SUPPORT } from '../../../common';
-import { GetBalancesParams } from '../../../type';
+import { DataResponse, LIST_CHAIN_SUPPORT } from "../../../common";
+import { GetBalancesParams } from "../../../type";
+import { WalletContextState } from "@coin98-com/wallet-adapter-react";
 
 export interface ApproveParams {
   ownerAddress: string;
   tokenAddress: string;
   spenderAddress: string;
-  connector: any;
+  connector: WalletContextState;
 }
 
 export interface SigPermitErc20Params {
@@ -27,24 +26,20 @@ export interface TokenAllowanceParams {
 }
 
 export abstract class AbstractServices {
-  protected abstract connection:
-    | Web3
-    | CosmWasmClient
-    | SolanaConnection
-    | null;
+  protected abstract connection: Web3 | null;
 
   abstract getBalance(params?: GetBalancesParams): Promise<string>;
   abstract getContract<TAbi extends ContractAbi>(
     ABI: TAbi,
     contractAddress: string,
-    chain?: string,
+    chain?: string
   ): Contract<TAbi> | null;
   abstract getClient(
     chain: LIST_CHAIN_SUPPORT,
-    rpcs?: { [key: string]: string },
-  ): Web3 | Promise<CosmWasmClient> | SolanaConnection;
+    rpcs?: { [key: string]: string }
+  ): Web3;
   abstract getTokenAllowance(
-    params: TokenAllowanceParams,
+    params: TokenAllowanceParams
   ): Promise<DataResponse>;
   abstract getNonce(address: string): Promise<any>;
   abstract approveToken(params: ApproveParams): Promise<DataResponse>;
