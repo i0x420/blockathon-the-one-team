@@ -1,4 +1,4 @@
-import { APIResponse } from "src/services/types/api";
+import { APIResponse } from '@/services/types/api';
 import Cookies from 'js-cookie';
 
 // API functions
