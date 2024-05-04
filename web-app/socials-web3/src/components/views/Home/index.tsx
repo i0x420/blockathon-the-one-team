@@ -6,8 +6,11 @@ import { Feed } from "./components/Feed";
 import { Community } from "./components/Community";
 import { Button } from "@/components/ui/Button";
 import { SendVibeButton } from "./components/CreatePostModal";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function Home() {
+  const { userInfo } = useUserStore();
+
   const {
     address,
     selectedChainId,
@@ -29,9 +32,7 @@ export default function Home() {
         <div className="w-[60%] border-l pl-6">
           <div className="flex justify-between items-center  ">
             <div className="text-text-secondary px-4 py-4">Feed</div>
-            <div>
-              <SendVibeButton />
-            </div>
+            <div>{userInfo?.username && <SendVibeButton />}</div>
           </div>
           <Feed />
         </div>
