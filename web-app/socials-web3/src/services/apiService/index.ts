@@ -7,18 +7,16 @@ import axios, {
 } from "axios";
 
 // import crypto from "crypto-js";
+import { KEY_STORE } from "@/common/constants";
 import { get } from "lodash";
 import qs from "query-string";
-import { KEY_STORE } from "src/common/constants";
-
-// import { useWalletStore } from "stores/useWalletStore";
 
 import {
   genErrorResponse,
   genSuccessResponse,
   getCookie,
-} from "src/common/functions";
-import { IGateway, REQUEST_TYPE } from "src/services/types/api";
+} from "@/common/functions";
+import { IGateway, REQUEST_TYPE } from "@/services/types/api";
 
 type Config = AxiosRequestConfig & {
   headers: {

@@ -1,5 +1,11 @@
-import { APIResponse } from "src/services/types/api";
-import Cookies from 'js-cookie';
+import { APIResponse } from "@/services/types/api";
+import Cookies from "js-cookie";
+
+export const formatAddress = (address: string, length = 6) => {
+  if (!address) return "";
+
+  return `${address.slice(0, length)}...${address.slice(-length)}`;
+};
 
 // API functions
 export const genErrorResponse = (message: string): APIResponse<null> => {
