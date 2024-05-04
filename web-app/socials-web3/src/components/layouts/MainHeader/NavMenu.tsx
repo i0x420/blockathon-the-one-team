@@ -2,29 +2,17 @@ import Link from "next/link";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 import { usePathname } from "next/navigation";
+import { useUserStore } from "@/stores/useUserStore";
 
 type NavConfig = {
   label: string;
   href: string;
   origin?: string;
   hideMobile?: boolean;
+  hidden?: boolean;
 };
 
 // constants
-const navConfigs: NavConfig[] = [
-  {
-    label: "Profile",
-    href: "/profile",
-  },
-  {
-    label: "Sign up",
-    href: "/sign-up",
-  },
-  {
-    label: "Sign in",
-    href: "/sign-in",
-  },
-];
 
 const NavMenu = ({
   className,
@@ -38,6 +26,7 @@ const NavMenu = ({
   onToggle?: () => void;
 }) => {
   const pathname = usePathname();
+  const { userInfo } = useUserStore();
 
   const activeWallet = "";
 
@@ -58,6 +47,23 @@ const NavMenu = ({
     // });
   };
 
+  const navConfigs: NavConfig[] = [
+    {
+      label: "Profile",
+      href: "/profile",
+    },
+    {
+      label: "Sign up",
+      href: "/sign-up",
+      hidden: !Boolean(userInfo?.username),
+    },
+    {
+      label: "Sign in",
+      href: "/sign-in",
+      hidden: !Boolean(userInfo?.username),
+    },
+  ];
+
   return (
     <nav
       className={twMerge(
@@ -66,7 +72,7 @@ const NavMenu = ({
       )}
       onClick={handleToggle}
     >
-      {(customLinks || navConfigs).map((config) => {
+      {navConfigs.filter(nav => nav.hidden).map((config) => {
         const isActive =
           config.href === pathname || pathname.includes(config?.origin);
         const checkConnectCreate = false;

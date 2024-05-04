@@ -64,7 +64,8 @@ const fetchNewFeed = async ({ username, community }: FetchNewFeedParams) => {
   const premiumPost = [];
   const freedomPost = [];
 
-  return { posts: merge(communityPost, premiumPost, freedomPost), error };
+  // return { posts: merge(communityPost, premiumPost, freedomPost), error };
+  return { posts, error };
 };
 
 export const PostsAPI = {
