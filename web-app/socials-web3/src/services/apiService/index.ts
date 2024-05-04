@@ -184,7 +184,7 @@ export class ApiService {
     return axiosInstance;
   }
 
-  static onRequest(config: AxiosRequestConfig): AxiosRequestConfig {
+  static onRequest(config: AxiosRequestConfig): any {
     return config;
   }
 
