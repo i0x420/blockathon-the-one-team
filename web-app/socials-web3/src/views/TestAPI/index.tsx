@@ -5,7 +5,7 @@ import { AccountAPI, CommunityAPI, PostsAPI } from "@/services/apis";
 export default function TestAPI() {
   return (
     <div className="">
-      <h1> -------- Account API ------------ </h1>
+      {/* <h1> -------- Account API ------------ </h1>
       <div
         className="p-4 bg-green-500 border hover:bg-slate-500"
         onClick={() => AccountAPI.getAllUser()}
@@ -100,7 +100,7 @@ export default function TestAPI() {
         })}
       >
         Test Update Community
-      </div>
+      </div> */}
     </div>
   );
 }

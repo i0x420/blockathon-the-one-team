@@ -129,12 +129,18 @@ export function CreateCommunityButton({ refresh }: { refresh?: () => void }) {
       const hash = createCommunity?.data?.hash;
       const salt = createCommunity?.data?.salt;
 
+      const addressCommunity = await mainServices.getCommunityAddressBySalt({
+        salt
+      });
+
       // create offchain
       const { error, community } = await CommunityAPI.createCommunity(
         data.name,
         data.description,
         hash,
-        salt
+        salt,
+        addressCommunity.data,
+        userInfo?.username
       );
       // const { error, post } = await PostsAPI.createPost(
       //   data.author,
