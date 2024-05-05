@@ -28,13 +28,18 @@ const createCommunity = async (
   name: string,
   description: string,
   hash: string,
-  salt: string
+  salt: string,
+  contractAddress: string,
+  owner: string
 ) => {
-  const { data: community, error } = await supabase
-    .from("community")
-    .insert([
-      { name, description, slug: slugify(name), meta: { owner: "dungnguyen" } }
-    ]);
+  const { data: community, error } = await supabase.from("community").insert([
+    {
+      name,
+      description,
+      slug: slugify(name),
+      meta: { owner, hash, salt, contractAddress }
+    }
+  ]);
   console.log("createCommunity", { community, error });
 
   return { community, error };
