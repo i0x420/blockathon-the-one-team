@@ -31,10 +31,7 @@ contract NESocial is Ownable, ProxyFactory, AccessControl {
         _feeManager = IFeeManager(feeManager);
     }
 
-    function createCommunityChanel(
-        bytes32 salt,
-        bytes memory callData
-    ) public onlyOwner {
+    function createCommunityChanel(bytes32 salt, bytes memory callData) public {
         (uint256 serviceFee, address feeToken) = _feeManager.getServiceFee(
             keccak256("createCommunityChanel")
         );
@@ -50,9 +47,7 @@ contract NESocial is Ownable, ProxyFactory, AccessControl {
         emit NewCommunity(address(newCollection));
     }
 
-    function registerCommunityChanel(
-        address communityPFPCollection
-    ) public onlyOwner {
+    function registerCommunityChanel(address communityPFPCollection) public {
         (uint256 serviceFee, address feeToken) = _feeManager.getServiceFee(
             keccak256("registerCommunityChanel")
         );

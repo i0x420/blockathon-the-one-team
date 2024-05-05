@@ -11,7 +11,7 @@ import {
 } from "../typechain-types";
 import config from "../deployment_config.json";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-const GAS_LIMIT = 30_000_000;
+const GAS_LIMIT = 40_000_000;
 
 const deployCollection = async (
   deployer: SignerWithAddress
@@ -32,7 +32,7 @@ const deployToken = async (deployer: SignerWithAddress): Promise<MainToken> => {
     "MainToken"
   );
   const contract: MainToken = await Factory.connect(deployer).deploy(
-    ethers.utils.parseEther("5000000000"),
+    ethers.utils.parseEther("10000000000"),
     {
       gasLimit: GAS_LIMIT,
     }
@@ -67,37 +67,46 @@ async function deployFeeManager(
   deployer: SignerWithAddress,
   mainToken: MainToken
 ): Promise<FeeManager> {
+  const gasPrice = (await ethers.provider.getGasPrice()).toNumber() * 1.1;
+  const createCommunityChanelService =
+    "0x1a1d401372523786d6ed01688ef1f846ad987c324bde9d24d9b5db12507739e0";
+  const registerCommunityChanelService =
+    "0xb5b9f805f09922b44e8119db91e3e5ab2c93dcca057017015e21543217ca7a4f";
+  const boostViewCommunityChanelService =
+    "0x97990b57f9b088fc1389ec122e46242c00dc88ed9d81e3af2167746e73889683";
+  const protectPostCommunityChanelService =
+    "0xb2126fe422be7324c62be96d430fec5494582b8a650a78773ee21e9df48bf4f1";
   const feeManager__factory = await ethers.getContractFactory("FeeManager");
   const feeManager = await feeManager__factory
     .connect(deployer)
     .deploy(deployer.address, { gasLimit: GAS_LIMIT });
+  const FEE = await ethers.utils.parseEther("100");
+  await feeManager
+    .connect(deployer)
+    .configService(createCommunityChanelService, mainToken.address, FEE, {
+      gasLimit: GAS_LIMIT,
+      gasPrice: gasPrice,
+    });
 
   await feeManager
     .connect(deployer)
-    .configService(
-      "0x1a1d401372523786d6ed01688ef1f846ad987c324bde9d24d9b5db12507739e0",
-      mainToken.address,
-      100,
-      { gasLimit: GAS_LIMIT }
-    );
+    .configService(registerCommunityChanelService, mainToken.address, FEE, {
+      gasLimit: GAS_LIMIT,
+      gasPrice: gasPrice,
+    });
 
   await feeManager
     .connect(deployer)
-    .configService(
-      "0xb5b9f805f09922b44e8119db91e3e5ab2c93dcca057017015e21543217ca7a4f",
-      mainToken.address,
-      100,
-      { gasLimit: GAS_LIMIT }
-    );
-
+    .configService(boostViewCommunityChanelService, mainToken.address, FEE, {
+      gasLimit: GAS_LIMIT,
+      gasPrice: gasPrice,
+    });
   await feeManager
     .connect(deployer)
-    .configService(
-      "0x696bb0aa6b0c3ada9425eca6b2b645a79ec143590c3fa4edfc352432d90e7a4e",
-      mainToken.address,
-      100,
-      { gasLimit: GAS_LIMIT }
-    );
+    .configService(protectPostCommunityChanelService, mainToken.address, FEE, {
+      gasLimit: GAS_LIMIT,
+      gasPrice: gasPrice,
+    });
   await feeManager
     .connect(deployer)
     .transferOwnership("0xc50ceb622ce62d8568c0fb9ac5ca2c796968f5b9", {
@@ -159,7 +168,7 @@ const main = async () => {
     feeManager,
     collection
   );
-  
+
   console.log("NESocial", NESocial.address);
 };
 
