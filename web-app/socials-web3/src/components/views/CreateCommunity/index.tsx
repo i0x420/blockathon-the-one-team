@@ -13,6 +13,7 @@ import {
   getAddressMainToken,
   getAddressSocial
 } from "@/services/mainServices/common/utils";
+import { useUserStore } from "@/stores/useUserStore";
 import { Web3Services, getChainFromChainId, getNumChainId } from "@/utils";
 import { useWallet } from "@coin98-com/wallet-adapter-react";
 import { get } from "lodash";
@@ -29,6 +30,7 @@ export default function CreateCommunityScreen() {
   const walletConnector = useWallet();
   const { refetchBalance } = useProfileBalance();
   const { toastNe } = useToast();
+  const { userInfo } = useUserStore();
 
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -117,12 +119,18 @@ export default function CreateCommunityScreen() {
       const hash = createCommunity?.data?.hash;
       const salt = createCommunity?.data?.salt;
 
+      const addressCommunity = await mainServices.getCommunityAddressBySalt({
+        salt
+      });
+
       // create offchain
       const { error, community } = await CommunityAPI.createCommunity(
         data.name,
         data.description,
         hash,
-        salt
+        salt,
+        addressCommunity.data,
+        userInfo?.username
       );
       // const { error, post } = await PostsAPI.createPost(
       //   data.author,

@@ -1,4 +1,5 @@
 import {
+  ADDRESS_ZERO,
   CHAIN_DATA,
   ERC721ABI,
   Web3Services,
@@ -184,7 +185,9 @@ export class EvmSocialService {
         communityAddress
       );
 
-      const rawData = contract.methods.boostView(this._stringToByte32(community), this._stringToByte32(postId)).encodeABI();
+      const rawData = contract.methods
+        .boostView(ADDRESS_ZERO, this._stringToByte32(postId))
+        .encodeABI();
       const transaction = {
         from: connector.address,
         to: contractAddress,
@@ -210,7 +213,9 @@ export class EvmSocialService {
         "SOCIAL",
         communityAddress
       );
-      const rawData = contract.methods.protectPost(this._stringToByte32(community), this._stringToByte32(postId)).encodeABI();
+      const rawData = contract.methods
+        .protectPost(ADDRESS_ZERO, this._stringToByte32(postId))
+        .encodeABI();
 
       const transaction = {
         from: connector.address,
@@ -260,12 +265,14 @@ export class EvmSocialService {
       throw genErrorResponse(error);
     }
   }
-  
+
   _stringToByte32(str: string) {
     const web3Client = new Web3Services(this._chain as any);
     const web3 = web3Client.getClient();
     const hexValue = web3.utils.toHex(str); // uniq generator id & post api
     const salt = web3.utils.padRight(hexValue, 64);
+    console.log("hexValue", hexValue);
+    console.log("salt", salt);
     return salt;
   }
 }

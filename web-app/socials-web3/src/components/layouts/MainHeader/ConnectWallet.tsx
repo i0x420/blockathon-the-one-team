@@ -9,7 +9,6 @@ import { useWallet } from "@coin98-com/wallet-adapter-react";
 import { useWalletModal } from "@coin98-com/wallet-adapter-react-ui";
 import { useRouter } from "next/navigation";
 
-
 const ConnectWallet = () => {
   const router = useRouter();
   const { address, connected, disconnect } = useWallet();
@@ -19,10 +18,15 @@ const ConnectWallet = () => {
     activeSymbol,
     isLoadingBalance
   } = useProfileBalance();
-  const { userInfo } = useUserStore();
+  const { userInfo, setUserInfo } = useUserStore();
 
   const refresh = async () => {
     await CommunityAPI.getAllCommunity();
+  };
+
+  const disconnectLogout = () => {
+    setUserInfo(null);
+    disconnect();
   };
 
   if (connected) {
@@ -66,7 +70,7 @@ const ConnectWallet = () => {
           iconClassName="font-bold"
           className="bg-background-hover text-reverse-text-primary"
           iconName="logout"
-          onClick={disconnect}
+          onClick={() => disconnectLogout()}
         />
       </div>
     );
