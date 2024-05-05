@@ -7,8 +7,12 @@ import { getAddressSocial } from "@/services/mainServices/common/utils";
 import { useUserStore } from "@/stores/useUserStore";
 import { getChainData, getChainFromChainId } from "@/utils";
 import { useWallet } from "@coin98-com/wallet-adapter-react";
+import dayjs from "dayjs";
 import { compact, get } from "lodash";
 import { useEffect, useState } from "react";
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime)
 
 export const Feed = ({ communitySlug = "" }: { communitySlug?: string }) => {
   const { userInfo } = useUserStore();
@@ -150,7 +154,7 @@ const PostItem = ({ p, index, refresh, communitySlug }: any) => {
         </div>
         <div>
           <span className="text-text-secondary cursor-pointer text-xs ml-2">
-            30m ago
+            {dayjs()?.to(p.created_at)}
           </span>
         </div>
       </div>
