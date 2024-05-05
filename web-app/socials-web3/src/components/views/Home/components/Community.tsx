@@ -3,6 +3,7 @@ import { CommunityAPI, PostsAPI } from "@/services/apis";
 import { useUserStore } from "@/stores/useUserStore";
 import { useEffect, useState } from "react";
 import { CreateCommunityButton } from "./CreateCommunityModal";
+import Link from "next/link";
 
 export const Community = () => {
   const { userInfo } = useUserStore();
@@ -21,6 +22,10 @@ export const Community = () => {
     }
   };
 
+  const refresh = async () => {
+    await fetchCommunity();
+  };
+
   return (
     <div className="flex gap-2 flex-col pt-6 mx-2">
       {communityList.map((p, index) => {
@@ -33,7 +38,7 @@ export const Community = () => {
                 srcSet={`https://picsum.photos/80/80?random=${index}`}
               />
               <div className="text-bold text-base hover:text-[#F28E28] truncate">
-                {p.name}
+                <Link href={`/community/${p.slug}`}>{p.name}</Link>
               </div>
             </div>
 
@@ -65,11 +70,6 @@ export const Community = () => {
           </div>
         );
       })}
-      {userInfo?.username && (
-        <div className="mx-2">
-          <CreateCommunityButton />
-        </div>
-      )}
     </div>
   );
 };

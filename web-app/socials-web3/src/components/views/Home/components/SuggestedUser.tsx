@@ -35,7 +35,7 @@ const SuggestedUser = (props: Props) => {
           <div className="flex items-center gap-2">
             <img
               className="rounded w-8 h-8"
-              srcSet={`https://picsum.photos/80/80?random=123`}
+              srcSet={`https://picsum.photos/80/80?random=${user.key}`}
               alt="avatar"
             />
             <span>{user.name}</span>

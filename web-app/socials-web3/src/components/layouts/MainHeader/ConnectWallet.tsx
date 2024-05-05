@@ -1,18 +1,17 @@
 import { formatAddress } from "@/common/functions";
 import { Button } from "@/components/ui/Button";
 import CopyIcon from "@/components/ui/CopyIcon";
-import { Icon } from "@/components/ui/Icon";
 import { IconButton } from "@/components/ui/IconButton";
 import { useProfileBalance } from "@/hooks/useProfileBalance";
+import { CommunityAPI } from "@/services/apis";
+import { useUserStore } from "@/stores/useUserStore";
 import { useWallet } from "@coin98-com/wallet-adapter-react";
 import { useWalletModal } from "@coin98-com/wallet-adapter-react-ui";
+import { useRouter } from "next/navigation";
 
-interface ConnectWalletProps {
-  className: string;
-  title: string;
-}
 
-const ConnectWallet = ({ className, title }: ConnectWalletProps) => {
+const ConnectWallet = () => {
+  const router = useRouter();
   const { address, connected, disconnect } = useWallet();
   const { openWalletModal } = useWalletModal();
   const {
@@ -20,6 +19,11 @@ const ConnectWallet = ({ className, title }: ConnectWalletProps) => {
     activeSymbol,
     isLoadingBalance
   } = useProfileBalance();
+  const { userInfo } = useUserStore();
+
+  const refresh = async () => {
+    await CommunityAPI.getAllCommunity();
+  };
 
   if (connected) {
     return (
@@ -49,9 +53,18 @@ const ConnectWallet = ({ className, title }: ConnectWalletProps) => {
             srcSet={`https://picsum.photos/80/80?random=${1}`}
           />
         </div>
+
+        {userInfo?.username && (
+          <IconButton
+            className="bg-brand-primary text-reverse-text-primary hover:bg-brand-primary"
+            iconName="add"
+            onClick={() => router.push("/community/create")}
+          />
+        )}
+
         <IconButton
           iconClassName="font-bold"
-          className="bg-brand-primary text-reverse-text-primary"
+          className="bg-background-hover text-reverse-text-primary"
           iconName="logout"
           onClick={disconnect}
         />

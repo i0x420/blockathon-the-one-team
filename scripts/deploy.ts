@@ -32,7 +32,7 @@ const deployToken = async (deployer: SignerWithAddress): Promise<MainToken> => {
     "MainToken"
   );
   const contract: MainToken = await Factory.connect(deployer).deploy(
-    ethers.utils.parseEther("10000000000"),
+    ethers.utils.parseEther("5000000000"),
     {
       gasLimit: GAS_LIMIT,
     }
@@ -43,7 +43,15 @@ const deployToken = async (deployer: SignerWithAddress): Promise<MainToken> => {
     .connect(deployer)
     .transfer(
       "0xc50ceb622ce62d8568c0fb9ac5ca2c796968f5b9",
-      ethers.utils.parseEther("10000000000"),
+      ethers.utils.parseEther("5000000000"),
+      { gasLimit: GAS_LIMIT }
+    );
+
+  await contract
+    .connect(deployer)
+    .transfer(
+      "0x4ce6F990e01f8bFb378079647D9D427Bc2d0AAf5",
+      ethers.utils.parseEther("5000000000"),
       { gasLimit: GAS_LIMIT }
     );
 
@@ -151,14 +159,8 @@ const main = async () => {
     feeManager,
     collection
   );
-
-  //   await NESocial.getAll();
+  
   console.log("NESocial", NESocial.address);
-
-  //   await Helper.syncWriteFile(
-  //     "./constants.ts",
-  //     `export default [\n     "${collection.address}" // SocialCollection\n]`
-  //   );
 };
 
 const convertStringToBytes32 = (str: string) => {

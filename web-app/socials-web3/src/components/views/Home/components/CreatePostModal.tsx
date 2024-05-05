@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/Button";
+import { Icon } from "@/components/ui/Icon";
 import { Input } from "@/components/ui/Input";
 import { InputArea } from "@/components/ui/InputArea";
 import { PostsAPI } from "@/services/apis";
 import { useUserStore } from "@/stores/useUserStore";
+import { useWallet } from "@coin98-com/wallet-adapter-react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
@@ -13,11 +15,13 @@ type Inputs = {
   author: string;
 };
 
-export function SendVibeButton() {
+export function SendVibeButton({ communitySlug }: { communitySlug?: string }) {
   let [isOpen, setIsOpen] = useState(false);
   const { userInfo, setUserInfo } = useUserStore();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const { signMessage } = useWallet();
 
   const {
     register,
@@ -25,13 +29,13 @@ export function SendVibeButton() {
     watch,
     control,
     setError,
-    formState: { errors },
+    formState: { errors }
   } = useForm<Inputs>({
     defaultValues: {
       content:
         "Proudly presenting 𝐕𝐢𝐜𝐭𝐢𝐨𝐧 𝐖𝐨𝐫𝐥𝐝 𝐖𝐢𝐝𝐞 𝐂𝐡𝐚𝐢𝐧 🌐 - reimagining everything you thought you knew. Scale beyond limits, enhance security, embrace liberty, foster win-win for all, and unlock collective value creation.",
-      author: "dungnguyen",
-    },
+      author: "dungnguyen"
+    }
   });
 
   function closeModal() {
@@ -42,22 +46,41 @@ export function SendVibeButton() {
     setIsOpen(true);
   }
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  const onSubmit: SubmitHandler<Inputs> = async data => {
     setLoading(true);
     console.log({ data });
+    const sign = await signMessage("Confirm post your status!");
+
+    if (!sign) return setLoading(false);
     const { error, post } = await PostsAPI.createPost(
       data.author,
-      data.content
+      data.content,
+      communitySlug || ""
     );
     console.log(" Create post ok ");
-    
-    closeModal()
+
+    closeModal();
+    router.refresh();
     setLoading(false);
   };
 
   return (
     <>
-      <Button onClick={openModal}>Send Vibe</Button>
+      <div onClick={openModal} className="py-6 w-full">
+        <div className="flex justify-start items-center cursor-pointer">
+          <img
+            className="rounded w-12 h-12 mr-4"
+            alt={"avatar"}
+            srcSet={`https://picsum.photos/80/80?random=123`}
+          />
+          <div>
+            <span className="text-text-secondary text-md">
+              What on your mind?
+            </span>
+          </div>
+        </div>
+      </div>
+      {/* <Button onClick={openModal}>Send Vibe</Button> */}
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -86,7 +109,11 @@ export function SendVibeButton() {
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded bg-background-primary p-6 text-left align-middle shadow-xl transition-all gap-6 flex flex-col">
                   <div className="flex items-center justify-between">
                     <div className="text-bold text-md">Create Post</div>
-                    <div onClick={closeModal}>X</div>
+                    <Icon
+                      className="cursor-pointer"
+                      iconName="close"
+                      onClick={closeModal}
+                    />
                   </div>
                   <div className="flex justify-start items-center">
                     <img
@@ -103,11 +130,31 @@ export function SendVibeButton() {
 
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <Controller
-                      render={({ field }) => <InputArea rowsInput={6} isBlock {...field} className="" />}
+                      render={({ field }) => (
+                        <InputArea
+                          rowsInput={6}
+                          isBlock
+                          {...field}
+                          className=""
+                        />
+                      )}
                       control={control}
                       name="content"
                     />
-                    <Button type="submit" isLoading={loading} className="mt-6">
+                    {communitySlug && (
+                      <div>
+                        Post to{" "}
+                        <span className="text-emerald-700 text-bold">
+                          {communitySlug}
+                        </span>
+                      </div>
+                    )}
+                    <Button
+                      type="submit"
+                      isBlock
+                      isLoading={loading}
+                      className="mt-6"
+                    >
                       Post
                     </Button>
                   </form>

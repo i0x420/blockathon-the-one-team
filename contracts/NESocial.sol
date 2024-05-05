@@ -94,15 +94,9 @@ contract NESocial is Ownable, ProxyFactory, AccessControl {
         _isActiveCommunity[community] = false;
     }
 
-    function boostView(address community, bytes32 postId) external onlyAdmin {
+    function boostView(address community, bytes32 postId) external {
         (uint256 serviceFee, address feeToken) = _feeManager.getServiceFee(
             keccak256("boostView")
-        );
-
-        require(
-            _isActiveCommunity[community] == true &&
-                Ownable(community).owner() == msg.sender,
-            "Invalid community !"
         );
 
         _takeFee(feeToken, serviceFee);
@@ -110,15 +104,9 @@ contract NESocial is Ownable, ProxyFactory, AccessControl {
         emit BoostedView(community, postId);
     }
 
-    function protectPost(address community, bytes32 postId) external onlyAdmin {
+    function protectPost(address community, bytes32 postId) external {
         (uint256 serviceFee, address feeToken) = _feeManager.getServiceFee(
             keccak256("protectPost")
-        );
-
-        require(
-            _isActiveCommunity[community] == true &&
-                Ownable(community).owner() == msg.sender,
-            "Invalid community !"
         );
 
         _takeFee(feeToken, serviceFee);
