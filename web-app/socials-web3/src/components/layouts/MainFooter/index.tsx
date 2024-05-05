@@ -6,6 +6,7 @@ import Link from "next/link";
 // import ThemeLogo from "../../components/ui/ThemeLogo";
 import LinkFooter from "./LinkFooter";
 import { Icon } from "@/components/ui/Icon";
+import { IconSvg } from "@/components/ui/IconSvg";
 
 // constants
 const share = {
@@ -16,78 +17,19 @@ const share = {
 };
 
 const footerConfig = [
+
   {
-    title: "home_footer_title_marketplace",
+    title: "Assets",
     content: [
       {
-        label: "common_launchpad",
-        isInternal: true,
-        url: "/launchpad",
-      },
-      {
-        label: "home_footer_value_hotDrops",
-        isInternal: true,
-        url: "/hotdrops",
-      },
-      {
-        label: "home_footer_value_apply_for_launch",
-        isInternal: false,
-        url: "https://dagora.link/launchpad-form",
-      },
-    ],
-  },
-  {
-    title: "home_footer_title_help",
-    content: [
-      {
-        label: "home_footer_value_support",
-        isInternal: false,
-        url: "https://dagora.link/discord",
-      },
-      {
-        label: "home_footer_value_beginnerGuide",
-        isInternal: false,
-        url: "https://docs.dagora.xyz/beginners-guide/basics",
-      },
-      {
-        label: "home_footer_value_faq",
-        isInternal: false,
-        url: "https://docs.dagora.xyz/beginners-guide/faqs",
-      },
-    ],
-  },
-  {
-    title: "home_footer_title_company",
-    content: [
-      {
-        label: "home_footer_value_branding",
+        label: "Branding",
         isInternal: false,
         url: "https://dagora.link/branding",
       },
       {
-        label: "home_footer_value_blog",
+        label: "Blog",
         isInternal: false,
         url: "https://blog.dagora.xyz",
-      },
-    ],
-  },
-  {
-    title: "home_footer_title_legal",
-    content: [
-      {
-        label: "home_footer_value_copyrightPolicy",
-        isInternal: false,
-        url: "https://docs.dagora.xyz/legal/copyright-dispute-policy",
-      },
-      {
-        label: "home_footer_value_termsOfService",
-        isInternal: false,
-        url: "https://docs.dagora.xyz/legal/terms-of-service",
-      },
-      {
-        label: "home_footer_value_privacyPolicy",
-        isInternal: false,
-        url: "https://docs.dagora.xyz/legal/privacy-policy",
       },
     ],
   },
@@ -97,9 +39,9 @@ const MainFooter = () => {
   return (
     <footer className="container mt-12  ipad:mb-16 py-10">
       <div className="flex flex-col md:flex-row">
-        <div className="flex flex-col gap-6 flex-[1_0_40%] mb-8 md:mb-0">
+        <div className="flex flex-col gap-6 flex-[1_0_40%] mb-8 md:mb-0 px-6">
           <Link prefetch={false} href="/">
-            Theme logo
+            <IconSvg.Logo />
             {/* <ThemeLogo width={150} height={40} /> */}
           </Link>
           <div className="flex items-center gap-8 text-text-secondary">
@@ -116,7 +58,7 @@ const MainFooter = () => {
             ))}
           </div>
         </div>
-        <div className="flex justify-end gap-6 flex-wrap flex-[1_0_60%]">
+        <div className="flex justify-end gap-6 flex-wrap flex-[1_0_60%] text-end px-6">
           {footerConfig.map((item) => (
             <div
               key={get(item, "title")}
@@ -139,9 +81,6 @@ const MainFooter = () => {
           ))}
         </div>
       </div>
-      <p className="text-center text-text-primary text-sm font-semibold mt-8">
-        home_footer_value_companyCopyright
-      </p>
     </footer>
   );
 };
