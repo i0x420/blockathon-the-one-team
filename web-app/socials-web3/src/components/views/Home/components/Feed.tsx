@@ -2,9 +2,12 @@
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/Toaster/useToast";
 import { PostsAPI } from "@/services/apis";
+import { SocialService } from "@/services/mainServices";
+import { getAddressSocial } from "@/services/mainServices/common/utils";
 import { useUserStore } from "@/stores/useUserStore";
+import { getChainData, getChainFromChainId } from "@/utils";
 import { useWallet } from "@coin98-com/wallet-adapter-react";
-import { compact } from "lodash";
+import { compact, get } from "lodash";
 import { useEffect, useState } from "react";
 
 export const Feed = ({ communitySlug = "" }: { communitySlug?: string }) => {
@@ -12,7 +15,9 @@ export const Feed = ({ communitySlug = "" }: { communitySlug?: string }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
+    // if (communitySlug) {
     fetchPosts([communitySlug]);
+    // }
   }, [userInfo]);
 
   const fetchPosts = async (community = []) => {
@@ -35,54 +40,99 @@ export const Feed = ({ communitySlug = "" }: { communitySlug?: string }) => {
   return (
     <div className="flex gap-6 flex-col mt-8">
       {posts.map((p, index) => {
-        return <PostItem p={p} index={index} refresh={refresh} />;
+        return (
+          <PostItem
+            p={p}
+            index={index}
+            refresh={refresh}
+            communitySlug={communitySlug}
+          />
+        );
       })}
     </div>
   );
 };
 
-const PostItem = ({ p, index, refresh }: any) => {
+const PostItem = ({ p, index, refresh, communitySlug }: any) => {
+  const walletConnector = useWallet();
   const [loading, setLoading] = useState(false);
+  const [loadingProtect, setLoadingProtect] = useState(false);
   const { userInfo } = useUserStore();
   const { toastNe } = useToast();
 
   const { signMessage } = useWallet();
 
-  const boostViewer = async (uuid: string) => {
+  const boostViewer = async (uuid: string, id: string) => {
+    console.log("uuid: ", uuid);
     setLoading(true);
-    // Await onchain
+    try {
+      // Await onchain
+      const chainId = walletConnector.selectedChainId;
+      const activeChain = getChainFromChainId(chainId as string);
+      const mainService = new SocialService(activeChain);
 
-    const sign = await signMessage("Boost this post 1 day with $100 VIBE");
+      const chainData = getChainData(activeChain);
+      const numChainId = get(chainData, "numChainId");
+      const contractAddress = getAddressSocial(numChainId) as string;
 
-    console.log({ uuid, sign });
+      const boostView = await mainService.boostView({
+        community: communitySlug,
+        communityAddress: contractAddress,
+        postId: id,
+        connector: walletConnector
+      });
 
-    if (!sign) return setLoading(false);
+      if (boostView.isErr) {
+        setLoading(false);
+        return toastNe({ type: "error", description: "Internal error" });
+      }
 
-    // --- update Premium post
-    const { post, error } = await PostsAPI.markPremiumPost(uuid);
+      // --- update Premium post
+      const { post, error } = await PostsAPI.markPremiumPost(uuid);
+      toastNe({ type: "success", description: "Boost premium success" });
 
-    toastNe({ type: "success", description: "Boost premium success" });
-
-    refresh();
-    setLoading(false);
+      refresh();
+    } catch (error) {
+      toastNe({ type: "error", description: error || "Internal error" });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const protectPost = async (uuid: string) => {
-    setLoading(true);
-    // Await onchain
+  const protectPost = async (uuid: string, id: string) => {
+    setLoadingProtect(true);
+    try {
+      // Await onchain
+      const chainId = walletConnector.selectedChainId;
+      const activeChain = getChainFromChainId(chainId as string);
+      const mainService = new SocialService(activeChain);
 
-    const sign = await signMessage("Protect this post forever with $10 VIBE");
+      const chainData = getChainData(activeChain);
+      const numChainId = get(chainData, "numChainId");
+      const contractAddress = getAddressSocial(numChainId) as string;
 
-    console.log({ uuid, sign });
+      const boostView = await mainService.protectPost({
+        community: communitySlug,
+        communityAddress: contractAddress,
+        postId: id,
+        connector: walletConnector
+      });
 
-    if (!sign) return setLoading(false);
+      if (boostView.isErr) {
+        setLoadingProtect(false);
+        return toastNe({ type: "error", description: "Internal error" });
+      }
 
-    // --- update Premium post
-    const { post, error } = await PostsAPI.markProtectPost(uuid);
-    toastNe({ type: "success", description: "Protect post success" });
+      // --- update Premium post
+      const { post, error } = await PostsAPI.markProtectPost(uuid);
+      toastNe({ type: "success", description: "Protect post success" });
 
-    refresh();
-    setLoading(false);
+      refresh();
+    } catch (error) {
+      toastNe({ type: "error", description: error || "Internal error" });
+    } finally {
+      setLoadingProtect(false);
+    }
   };
 
   return (
@@ -204,16 +254,19 @@ const PostItem = ({ p, index, refresh }: any) => {
           </svg>
         </div>
         <div className="flex gap-2">
-          {userInfo?.username && (
-            <Button onClick={() => boostViewer(p.uuid)} isLoading={loading}>
+          {userInfo?.username && !p.premium && (
+            <Button
+              onClick={() => boostViewer(p.uuid, p.id)}
+              isLoading={loading}
+            >
               Boost View $100 VIBE
             </Button>
           )}
           {userInfo?.username && !p.protected && (
             <Button
               className="bg-emerald-600"
-              onClick={() => protectPost(p.uuid)}
-              isLoading={loading}
+              onClick={() => protectPost(p.uuid, p.id)}
+              isLoading={loadingProtect}
             >
               Protect $10 VIBE
             </Button>

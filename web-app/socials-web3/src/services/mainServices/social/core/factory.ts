@@ -1,9 +1,11 @@
 import { CHAIN_KIND, getChainKind } from "@/utils";
 import { EvmSocialService } from "../evm";
 import {
+  BoostView,
   CreateCommunityChanel,
   GetCommunityAddressBySalt,
   JoinCommunityChanel,
+  ProtectPost,
   RegisterCommunityChanel
 } from "../type";
 
@@ -75,6 +77,26 @@ export class SocialService {
       return response;
     } catch (error) {
       console.log("error ~ get communities: ", error);
+      throw error;
+    }
+  }
+
+  async boostView(params: BoostView) {
+    try {
+      const response = await this.service.boostView(params);
+      return response;
+    } catch (error) {
+      console.log("error ~ get community chanel address: ", error);
+      throw error;
+    }
+  }
+
+  async protectPost(params: ProtectPost) {
+    try {
+      const response = await this.service.protectPost(params);
+      return response;
+    } catch (error) {
+      console.log("error ~ get community chanel address: ", error);
       throw error;
     }
   }

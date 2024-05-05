@@ -3,22 +3,11 @@
 import Link from "next/link";
 
 // components
+import { IconSvg } from "@/components/ui/IconSvg";
 import ConnectWallet from "./ConnectWallet";
 import NavMenu from "./NavMenu";
-import { useUserStore } from "@/stores/useUserStore";
-import { useRouter } from "next/navigation";
-import { IconSvg } from "@/components/ui/IconSvg";
-import { CreateCommunityButton } from "@/components/views/Home/components/CreateCommunityModal";
 
 const MainHeader = () => {
-  const { userInfo, setUserInfo } = useUserStore();
-  const router = useRouter();
-
-  const logout = () => {
-    setUserInfo(null);
-    router.push("/sign-in");
-  };
-
   return (
     <header className="flex items-center px-4 lg:px-6 h-header bg-background-primary fixed top-0 left-0 w-full z-50">
       {/* header left */}
