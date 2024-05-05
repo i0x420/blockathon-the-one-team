@@ -18,6 +18,25 @@ export const socialABI = [
         internalType: "address",
         name: "",
         type: "address"
+      },
+      {
+        indexed: false,
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32"
+      }
+    ],
+    name: "BoostedView",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "",
+        type: "address"
       }
     ],
     name: "NewCommunity",
@@ -58,7 +77,7 @@ export const socialABI = [
         type: "bytes32"
       }
     ],
-    name: "PostCreated",
+    name: "PostProtected",
     type: "event"
   },
   {
@@ -96,6 +115,24 @@ export const socialABI = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "community",
+        type: "address"
+      },
+      {
+        internalType: "bytes32",
+        name: "postId",
+        type: "bytes32"
+      }
+    ],
+    name: "boostView",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
         internalType: "bytes32",
         name: "salt",
         type: "bytes32"
@@ -117,29 +154,42 @@ export const socialABI = [
         internalType: "address",
         name: "community",
         type: "address"
-      },
-      {
-        internalType: "bytes32",
-        name: "postId",
-        type: "bytes32"
       }
     ],
-    name: "createPost",
+    name: "deactiveCommunityChanel",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function"
   },
   {
-    inputs: [
+    inputs: [],
+    name: "getCommunities",
+    outputs: [
       {
-        internalType: "address",
-        name: "community",
-        type: "address"
+        internalType: "address[]",
+        name: "",
+        type: "address[]"
       }
     ],
-    name: "deactiveCommunity",
-    outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    inputs: [],
+    name: "getData",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32"
+      },
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32"
+      }
+    ],
+    stateMutability: "pure",
     type: "function"
   },
   {
@@ -213,6 +263,25 @@ export const socialABI = [
     type: "function"
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "community",
+        type: "address"
+      }
+    ],
+    name: "isActiveCommunity",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool"
+      }
+    ],
+    stateMutability: "view",
+    type: "function"
+  },
+  {
     inputs: [],
     name: "owner",
     outputs: [
@@ -223,6 +292,24 @@ export const socialABI = [
       }
     ],
     stateMutability: "view",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "community",
+        type: "address"
+      },
+      {
+        internalType: "bytes32",
+        name: "postId",
+        type: "bytes32"
+      }
+    ],
+    name: "protectPost",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function"
   },
   {
@@ -287,19 +374,6 @@ export const socialABI = [
     name: "transferOwnership",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
-    inputs: [],
-    name: "getCommunities",
-    outputs: [
-      {
-        internalType: "address[]",
-        name: "",
-        type: "address[]"
-      }
-    ],
-    stateMutability: "view",
     type: "function"
   }
 ] as const;

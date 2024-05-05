@@ -12,6 +12,7 @@ import { get } from "lodash";
 import { socialABI } from "../../abi/socialABI";
 import { getAddressSocial } from "../../common/utils";
 import {
+  BoostView,
   CreateCommunityChanel,
   GetCommunityAddressBySalt,
   JoinCommunityChanel,
@@ -94,7 +95,7 @@ export class EvmSocialService {
       const rawData = contract.methods
         .createCommunityChanel(
           salt,
-          deploymentTypeHash,
+          deploymentTypeHash
           // "0x4fa01eda000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000a0000000000000000000000000c50ceb622ce62d8568c0fb9ac5ca2c796968f5b9000000000000000000000000000000000000000000000000000000000000000747726f757020310000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000024731000000000000000000000000000000000000000000000000000000000000"
         )
         .encodeABI();
@@ -175,6 +176,60 @@ export class EvmSocialService {
     }
   }
 
+  async boostView(params: BoostView) {
+    const { community, postId, connector, communityAddress } = params;
+    try {
+      const { contract, contractAddress } = this._genContract(
+        "SOCIAL",
+        communityAddress
+      );
+
+      const rawData = contract.methods.boostView(this._stringToByte32(community), this._stringToByte32(postId)).encodeABI();
+      const transaction = {
+        from: connector.address,
+        to: contractAddress,
+        data: rawData,
+        chainId: getChainIdFromChain(this._chain),
+        gasLimit: 30_000_000
+      };
+
+      const hash = await connector.sendTransaction(transaction);
+
+      if (!hash) return genErrorResponse("error_txsFail");
+
+      return genSuccessResponse({ hash });
+    } catch (error) {
+      throw genErrorResponse(error);
+    }
+  }
+
+  async protectPost(params: BoostView) {
+    const { community, postId, connector, communityAddress } = params;
+    try {
+      const { contract, contractAddress } = this._genContract(
+        "SOCIAL",
+        communityAddress
+      );
+      const rawData = contract.methods.protectPost(this._stringToByte32(community), this._stringToByte32(postId)).encodeABI();
+
+      const transaction = {
+        from: connector.address,
+        to: contractAddress,
+        data: rawData,
+        chainId: getChainIdFromChain(this._chain),
+        gasLimit: 30_000_000
+      };
+
+      const hash = await connector.sendTransaction(transaction);
+
+      if (!hash) return genErrorResponse("error_txsFail");
+
+      return genSuccessResponse({ hash });
+    } catch (error) {
+      throw genErrorResponse(error);
+    }
+  }
+
   async getCommunityAddressBySalt(params: GetCommunityAddressBySalt) {
     const { salt } = params;
     try {
@@ -183,7 +238,9 @@ export class EvmSocialService {
       const contractAddress = getAddressSocial(numChainId) as string;
 
       const { contract } = this._genContract("SOCIAL", contractAddress);
-      const communityAddress = await contract.methods.getInstanceAddress(salt).call();
+      const communityAddress = await contract.methods
+        .getInstanceAddress(salt)
+        .call();
       return genSuccessResponse(communityAddress);
     } catch (error) {
       throw genErrorResponse(error);
@@ -202,5 +259,13 @@ export class EvmSocialService {
     } catch (error) {
       throw genErrorResponse(error);
     }
+  }
+  
+  _stringToByte32(str: string) {
+    const web3Client = new Web3Services(this._chain as any);
+    const web3 = web3Client.getClient();
+    const hexValue = web3.utils.toHex(str); // uniq generator id & post api
+    const salt = web3.utils.padRight(hexValue, 64);
+    return salt;
   }
 }
