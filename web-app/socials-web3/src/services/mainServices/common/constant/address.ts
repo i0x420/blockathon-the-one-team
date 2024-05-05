@@ -2,9 +2,9 @@ import { ContractAddress } from "./type";
 
 export const CONTRACT_ADDRESS: ContractAddress = {
   SOCIAL: {
-    88: "0xcD127Ea617E816b60eaf4568fD23f95f86A4609e"
+    88: "0x598Bd40437F90C8bfC8b547ee364bd88613250e7"
   },
   MAIN_TOKEN: {
-    88: "0x6EB6285E46F542736EeFBAE0f3Aed607A7c10939"
+    88: "0x3BdB260ffe3677dDba30B66d398f7924309087bF"
   }
 };
