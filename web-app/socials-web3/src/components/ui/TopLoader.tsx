@@ -27,7 +27,7 @@ const TopLoader = ({
   shadow,
 }: TopLoaderProps) => {
   // variables
-  const defaultColor = '#cda439';
+  const defaultColor = '#f28e28';
   const defaultHeight = 3;
 
   const color = propColor ?? defaultColor;

@@ -179,7 +179,7 @@ const PostItem = ({ p, index, refresh, communitySlug }: any) => {
       <div className="">{p.content}</div>
       <div className="w-full h-80">
         <img
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover rounded-lg"
           alt={p.author}
           src={`https://picsum.photos/800/360?random=${index}`}
         />
