@@ -24,11 +24,16 @@ const getCommunityBySlug = async (slug: string) => {
 
   return { community, error };
 };
-const createCommunity = async (name: string, description: string) => {
+const createCommunity = async (
+  name: string,
+  description: string,
+  hash: string,
+  salt: string
+) => {
   const { data: community, error } = await supabase
     .from("community")
     .insert([
-      { name, description, slug: slugify(name), meta: { owner: "dungnguyen" } },
+      { name, description, slug: slugify(name), meta: { owner: "dungnguyen" } }
     ]);
   console.log("createCommunity", { community, error });
 
@@ -49,5 +54,5 @@ export const CommunityAPI = {
   createCommunity,
   getAllCommunity,
   getCommunityBySlug,
-  updateCommunity,
+  updateCommunity
 };

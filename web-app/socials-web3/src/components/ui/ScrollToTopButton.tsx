@@ -8,7 +8,7 @@ import { Icon } from "./Icon";
 
 const ScrollToTopButton = () => {
   // states
-  const [showTopBtn, setShowTopBtn] = useState<boolean>(true);
+  const [showTopBtn, setShowTopBtn] = useState<boolean>(false);
 
   useEffect(() => {
     const handleShowButton = (): void => {
